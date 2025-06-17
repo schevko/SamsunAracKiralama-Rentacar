@@ -2,38 +2,41 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <title>@yield('title', 'Admin Paneli')</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    {{-- Bootstrap 5 CSS --}}
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@yield('title', 'Yönetim Paneli')</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 
+<nav class="navbar navbar-dark bg-dark mb-4">
     <div class="container-fluid">
-        <div class="row flex-nowrap">
-
-            {{-- Sidebar --}}
-            <nav class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark text-white min-vh-100">
-                <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-3">
-                    <a href="#" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-                        <span class="fs-5 d-none d-sm-inline">Admin Panel</span>
-                    </a>
-                    <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start w-100">
-                        {{-- Menü öğeleri buraya eklenecek --}}
-                    </ul>
-                </div>
-            </nav>
-
-            {{-- Main Content --}}
-            <main class="col py-3">
-                @yield('content')
-            </main>
-
-        </div>
+        <a class="navbar-brand" href="#">Rent A Car</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminSidebar"
+                aria-controls="adminSidebar" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
     </div>
+</nav>
 
-    {{-- Bootstrap 5 JS + Popper --}}
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-3 col-lg-2 bg-light collapse d-md-block" id="adminSidebar">
+            <div class="list-group list-group-flush">
+                    <a href="{{ route('admin.slider.index') }}" class="list-group-item list-group-item-action">Slider</a>
+            </div>
+        </div>
+
+
+
+        <!-- Main Content -->
+        <main class="col-md-9 col-lg-10 px-4 py-3">
+            @yield('content')
+        </main>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
