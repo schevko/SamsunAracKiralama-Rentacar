@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Carİmage extends Model
+class CarImage extends Model
 {
     protected $fillable = [
         'car_id',
@@ -12,4 +12,9 @@ class Carİmage extends Model
         'is_thumbnail',
         'order',
     ];
+
+    public function car()
+    {
+        return $this->belongsTo(Car::class);
+    }
 }

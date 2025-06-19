@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\CarImage;
 
 class Car extends Model
 {
@@ -18,4 +19,8 @@ class Car extends Model
         'description',
         'is_active',
     ];
+
+    public function images(){
+        return $this->hasMany(CarImage::class)->orderBy('order');
+    }
 }
