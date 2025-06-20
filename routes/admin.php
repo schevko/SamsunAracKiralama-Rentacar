@@ -7,9 +7,11 @@ use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\ContactMessageController;
 use App\Http\Controllers\Admin\CarImageController;
 use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\LoginController;
 
 
-Route::prefix('/admin/slider')->name('admin.')->group(function(){
+Route::prefix('/admin/slider')->middleware(['is_admin'])->name('admin.')->group(function(){
     Route::get('/',  [SliderController::class, 'index'])->name('slider.index');
     Route::get('/create', [SliderController::class, 'create'])->name('slider.create');
     Route::post('/store' , [SliderController::class, 'store'])->name('slider.store');
@@ -18,7 +20,7 @@ Route::prefix('/admin/slider')->name('admin.')->group(function(){
     Route::delete('/destroy/{slider}'  , [SliderController::class, 'destroy'])->name('slider.destroy');
 });
 
-Route::prefix('/admin/car')->name('admin.')->group(function(){
+Route::prefix('/admin/car')->middleware(['is_admin'])->name('admin.')->group(function(){
     Route::get('/'  ,[CarController::class, 'index'])->name('car.index');
     Route::get('/create' , [CarController::class, 'create'])->name('car.create');
     Route::post('/store' , [CarController::class, 'store'])->name('car.store');
@@ -27,7 +29,7 @@ Route::prefix('/admin/car')->name('admin.')->group(function(){
     Route::delete('/destroy/{car}' , [CarController::class, 'destroy'])->name('car.destroy');
 });
 
-Route::prefix('/admin/page')->name('admin.')->group(function(){
+Route::prefix('/admin/page')->middleware(['is_admin'])->name('admin.')->group(function(){
     Route::get('/' , [PageController::class, 'index' ])->name('page.index');
     Route::get('/create' , [PageController::class, 'create'])->name('page.create');
     Route::post('/store' , [PageController::class, 'store'])->name('page.store');
@@ -36,7 +38,7 @@ Route::prefix('/admin/page')->name('admin.')->group(function(){
     Route::delete('/destroy/{page}' ,[PageController::class, 'destroy'])->name('page.destroy');
 });
 
-Route::prefix('/admin/post')->name('admin.')->group(function(){
+Route::prefix('/admin/post')->middleware(['is_admin'])->name('admin.')->group(function(){
     Route::get('/' , [PostController::class, 'index'])->name('post.index');
     Route::get('/create' ,[PostController::class, 'create'])->name('post.create');
     Route::post('/store' , [PostController::class, 'store'])->name('post.store');
@@ -45,22 +47,34 @@ Route::prefix('/admin/post')->name('admin.')->group(function(){
     Route::delete('/destroy/{post}' , [PostController::class, 'destroy'])->name('post.destroy');
 });
 
-Route::prefix('/admin/contactmessage')->name('admin.')->group(function(){
+Route::prefix('/admin/contactmessage')->middleware(['is_admin'])->name('admin.')->group(function(){
     Route::get('/' , [ContactMessageController::class, 'index'])->name('contactmessage.index');
     Route::get('/show/{message}' ,[ContactMessageController::class, 'show'])->name('contactmessage.show');
     Route::put('/markAsunread/{message}' , [ContactMessageController::class, 'markAsunread'])->name('contactmessage.markAsunread');
     Route::delete('/destroy/{message}' , [ContactMessageController::class, 'destroy'])->name('contactmessage.destroy');
 });
 
-Route::prefix('/admin/carimage')->name('admin.')->group(function(){
+Route::prefix('/admin/carimage')->middleware(['is_admin'])->name('admin.')->group(function(){
     Route::post('/store/{car}' ,[CarImageController::class, 'store'])->name('carimage.store');
     Route::delete('/destroy/{image}' , [CarImageController::class, 'destroy'])->name('carimage.destroy');
     Route::put('/setthumbnail/{image}' , [CarImageController::class, 'setThumbnail'])->name('carimage.setThumbnail');
 });
 
-Route::prefix('/admin/setting')->name('admin.')->group(function(){
+Route::prefix('/admin/setting')->middleware(['is_admin'])->name('admin.')->group(function(){
     Route::get('/edit' , [SettingController::class, 'edit'])->name('setting.edit');
     Route::post('/update',  [SettingController::class, 'update'])->name('setting.update');
+});
+
+Route::get('/admin/dashboard', function(){
+    return view('admin.dashboard');
+})->middleware(['is_admin'])->name('admin.dashboard');
+
+Route::prefix('/admin/auth')->name('admin.')->group(function(){
+    Route::get('/register' , [RegisterController::class, 'showRegisterForm'])->name('register');
+    Route::post('/register' , [RegisterController::class, 'register'])->name('register.post');
+    Route::get('/login' , [LoginController::class, 'showLoginForm'])->name('login');
+    Route::post('/login' , [LoginController::class , 'login'])->name('login.post');
+    Route::get('/logout' , [LoginController::class, 'logout'])->name('logout');
 });
 
 
