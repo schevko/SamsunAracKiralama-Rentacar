@@ -31,7 +31,7 @@ class PostController extends Controller
             'published_at' => 'nullable|date'
         ]);
 
-        $data['user_id'] = 1;
+        $data['user_id'] = Auth::id();;
         if($request->hasfile('image')){
             $data['image_path'] = $request->file('image')->store('uploads/posts' , 'public');
         }
@@ -59,7 +59,7 @@ class PostController extends Controller
             }
             $data['image_path'] = $request->file('image')->store('uploads/posts' , 'public');
         }
-        $data['user_id'] = 1;
+        $data['user_id'] = Auth::id();
         $post->update($data);
         return redirect()->route('admin.post.index')->with('success' , 'Blog Güncellendi');
     }

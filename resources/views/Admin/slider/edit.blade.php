@@ -37,8 +37,9 @@
         </div>
 
         <div class="form-check mb-3">
-            <input type="checkbox" class="form-check-input" name="is_active" value="1" {{ old('is_active', $slider->is_active) ? 'checked' : '' }}>
             <label class="form-check-label">Aktif</label>
+            <input type="hidden" name="is_active" value="0">
+            <input type="checkbox" name="is_active" value="1" {{ old('is_active', $slider->is_active) ? 'checked' : '' }}>
         </div>
 
         <button type="submit" class="btn btn-primary">Güncelle</button>
