@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreSliderRequest;
+use App\Http\Requests\UpdateSliderRequest;
 use Illuminate\Http\Request;
 use App\Models\Slider;
 use Illuminate\Support\Facades\Storage;
@@ -18,15 +20,9 @@ class SliderController extends Controller
     {
         return view('admin.slider.create');
     }
-    public function store(Request $request)
+    public function store(StoreSliderRequest $request)
     {
-             $data = $request->validate([
-            'image' => 'required|image|max:10240',
-            'title' => 'nullable|string',
-            'description' => 'nullable|string',
-            'link' => 'nullable|string',
-            'order' => 'required|integer|min:0',
-             ]);
+             $data = $request->validated();
              $data['is_active'] = $request->has('is_active') ? true : false;
              if($request->hasFile('image')){
                 $data['image_path'] = $request->file('image')->store('uploads/sliders' , 'public');
@@ -39,15 +35,9 @@ class SliderController extends Controller
     {
         return view('admin.slider.edit' , compact('slider'));
     }
-    public function update(Slider $slider , request $request)
+    public function update(UpdateSliderRequest $slider , request $request)
     {
-             $data = $request->validate([
-            'image' => 'nullable|image|max:10240',
-            'title' => 'nullable|string',
-            'description' => 'nullable|string',
-            'link' => 'nullable|string',
-            'order' => 'required|integer|min:0',
-        ]);
+        $data = $request->validated();
         $data['is_active'] = $request->input('is_active' , 0);
                 if ($request->hasFile('image')) {
             if ($slider->image_path) {
