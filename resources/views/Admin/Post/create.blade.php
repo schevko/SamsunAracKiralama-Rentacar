@@ -5,6 +5,15 @@
     <h2>Yeni Blog</h2>
 
     <form method="POST" action="{{ route('admin.post.store') }}" enctype="multipart/form-data">
+        @if($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         @csrf
 
         <div class="mb-3">

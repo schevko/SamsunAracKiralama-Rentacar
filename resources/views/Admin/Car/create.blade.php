@@ -5,6 +5,15 @@
 <h2>Yeni Araç Ekle</h2>
 
 <form method="POST" action="{{ route('admin.car.store') }}" enctype="multipart/form-data">
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul class="mb-0">
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
     @csrf
 
     <div class="mb-3">
@@ -30,7 +39,7 @@
     <div class="mb-3">
         <label>Vites Tipi</label>
         <select name="transmission_type" class="form-select" required>
-            <option value="manual">Manuel</option>
+            <option value="manuall">Manuel</option>
             <option value="automatic">Otomatik</option>
         </select>
     </div>

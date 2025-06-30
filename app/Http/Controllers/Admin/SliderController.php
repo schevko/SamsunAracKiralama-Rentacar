@@ -35,7 +35,7 @@ class SliderController extends Controller
     {
         return view('admin.slider.edit' , compact('slider'));
     }
-    public function update(UpdateSliderRequest $slider , request $request)
+    public function update(UpdateSliderRequest $request , slider $slider)
     {
         $data = $request->validated();
         $data['is_active'] = $request->input('is_active' , 0);

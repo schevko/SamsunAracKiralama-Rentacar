@@ -28,8 +28,8 @@
                     <td>{{ $message->is_read ? 'Okundu' : 'Yeni' }}</td>
                     <td>{{ $message->created_at->format('d.m.Y H:i') }}</td>
                     <td>
-                        <a href="{{ route('admin.message.show', $message) }}" class="btn btn-sm btn-primary">Detay</a>
-                        <form action="{{ route('admin.message.destroy', $message) }}" method="POST" class="d-inline">
+                        <a href="{{ route('admin.contactmessage.show', $message) }}" class="btn btn-sm btn-primary">Detay</a>
+                        <form action="{{ route('admin.contactmessage.destroy', $message) }}" method="POST" class="d-inline">
                             @csrf @method('DELETE')
                             <button class="btn btn-sm btn-danger" onclick="return confirm('Silinsin mi?')">Sil</button>
                         </form>

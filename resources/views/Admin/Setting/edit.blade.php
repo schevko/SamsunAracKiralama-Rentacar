@@ -12,25 +12,49 @@
         </div>
     @endif
 
-    <form method="POST" action="{{ route('admin.setting.update') }}">
-        @csrf
+<form method="POST" action="{{ route('admin.setting.update') }}" enctype="multipart/form-data" class="card shadow-sm p-4">
+    @csrf
 
-        <div class="mb-3">
+    <h4 class="mb-4">Site Genel Ayarları</h4>
+
+    <div class="row mb-3">
+        <div class="col-md-6">
             <label for="site_title" class="form-label">Site Başlığı</label>
-            <input type="text" class="form-control" name="site_title" id="site_title" value="{{ $settings['site_title'] ?? '' }}">
+            <input type="text" class="form-control" id="site_title" name="site_title" value="{{ setting('site_title') }}">
         </div>
-
-        <div class="mb-3">
-            <label for="whatsapp_number" class="form-label">WhatsApp Numarası</label>
-            <input type="text" class="form-control" name="whatsapp_number" id="whatsapp_number" value="{{ $settings['whatsapp_number'] ?? '' }}">
+        <div class="col-md-6">
+            <label for="whatsapp" class="form-label">WhatsApp Numarası</label>
+            <input type="text" class="form-control" id="whatsapp" name="whatsapp" value="{{ setting('whatsapp') }}">
         </div>
+    </div>
 
-        <div class="mb-3">
-            <label for="footer_text" class="form-label">Footer Yazısı</label>
-            <input type="text" class="form-control" name="footer_text" id="footer_text" value="{{ $settings['footer_text'] ?? '' }}">
-        </div>
+    <div class="mb-3">
+        <label for="contact_email" class="form-label">İletişim E-Posta</label>
+        <input type="email" class="form-control" id="contact_email" name="contact_email" value="{{ setting('contact_email') }}">
+    </div>
 
-        <button type="submit" class="btn btn-primary">Kaydet</button>
-    </form>
+    <div class="mb-3">
+        <label for="contact_address" class="form-label">Adres</label>
+        <textarea name="contact_address" id="contact_address" rows="3" class="form-control">{{ setting('contact_address') }}</textarea>
+    </div>
+
+    <div class="mb-3">
+        <label for="footer_text" class="form-label">Footer Metni</label>
+        <textarea name="footer_text" id="footer_text" rows="2" class="form-control">{{ setting('footer_text') }}</textarea>
+    </div>
+
+    <div class="mb-3">
+        <label for="logo" class="form-label">Logo Yükle</label>
+        @if(setting('logo'))
+            <div class="mb-2">
+                <img src="{{ asset('storage/' . setting('logo')) }}" height="60" alt="Logo Önizleme">
+            </div>
+        @endif
+        <input type="file" name="logo" id="logo" class="form-control">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Kaydet</button>
+</form>
+
 </div>
 @endsection

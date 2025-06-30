@@ -5,6 +5,15 @@
     <h2>Sayfa Düzenle</h2>
 
     <form method="POST" action="{{ route('admin.page.update', $page) }}">
+        @if($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         @csrf @method('PUT')
 
         <div class="mb-3">

@@ -5,8 +5,16 @@
     <h2>Yeni Sayfa</h2>
 
     <form method="POST" action="{{ route('admin.page.store') }}">
+        @if($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
         @csrf
-
         <div class="mb-3">
             <label>Başlık</label>
             <input type="text" name="title" class="form-control" required>
@@ -36,11 +44,9 @@
 
             <label class="form-check-label">Aktif</label>
         </div>
-
         <button class="btn btn-success">Kaydet</button>
     </form>
 @endsection
-
 @section('css')
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote.min.css" rel="stylesheet">
 @endsection

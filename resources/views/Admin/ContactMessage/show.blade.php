@@ -23,12 +23,12 @@
 
     <div class="d-flex gap-2">
         @if($message->is_read)
-            <form method="POST" action="{{ route('admin.message.markAsunread', $message) }}">
+            <form method="POST" action="{{ route('admin.contactmessage.markAsunread', $message) }}">
                 @csrf
                 <button class="btn btn-warning">Okunmadı Yap</button>
             </form>
         @endif
 
-        <a href="{{ route('admin.messages.index') }}" class="btn btn-secondary">Geri</a>
+        <a href="{{ route('admin.contactmessage.index') }}" class="btn btn-secondary">Geri</a>
     </div>
 @endsection

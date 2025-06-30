@@ -26,9 +26,21 @@ class StorePostRequest extends FormRequest
             'content' => 'required|string',
             'slug' => 'required|string|unique:posts,slug',
             'summary' => 'nullable|string',
-            'image' => 'nullable|image|max:5096',
+            'image' => 'nullable|image|max:20480',
             'is_published' => 'boolean',
             'published_at' => 'nullable|date'
+        ];
+    }
+    public function messages() : array
+    {
+        return [
+            'title.requird' => 'Başlık Boş Bırakılamaz',
+            'title.max'     => 'Başlık En Fazla 255 Karakter Olabilir',
+            'slug.required' => 'Slug Boş Bırakılamaz',
+            'slug.unique'   => 'Bu Slug Zaten Kullanılıyor',
+            'content.required' => 'İçerik Boş Bırakılamaz',
+            'image.image'     => 'Yüklenen Dosya Bir Resim Olmalıdır',
+            'image.max'    => 'Resim Boyutu En Fazla 20 MB Olabilir',
         ];
     }
 }

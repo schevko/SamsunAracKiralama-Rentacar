@@ -22,11 +22,24 @@ class UpdateSliderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'image' => 'nullable|image|max:10240',
+            'image' => 'nullable|image|max:20480',
             'title' => 'nullable|string',
             'description' => 'nullable|string',
             'link' => 'nullable|string',
             'order' => 'required|integer|min:0',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'image.image' => 'Resim Dosyası Olmalıdır',
+            'title.string' => 'Başlık Metin Olmalıdır',
+            'description.string' => 'Açıklama Metin Olmalıdır',
+            'link.string' => 'Link Metin Olmalıdır',
+            'order.required' => 'Sıra Alanı Zorunludur',
+            'order.integer' => 'Sıra Sayısal Bir Değer Olmalıdır',
+            'order.min' => 'Sıra En Az 0 Olmalıdır',
         ];
     }
 }

@@ -1,27 +1,42 @@
 <?php
-
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Setting;
+use Illuminate\Support\Facades\Storage;
 
 class SettingController extends Controller
 {
     public function edit()
     {
-        $settings = Setting::pluck('value' , 'key')->toArray();
-        return view('admin.setting.edit' , compact('settings'));
+        return view('admin.setting.edit');
     }
+
     public function update(Request $request)
     {
-        $data = $request->except('_token');
-        foreach ($data as $key => $value){
-            Setting::updateOrCreate(
-                ['key' => $key],
-                ['value' => $value],
-            );
+        $keys = ['site_title', 'whatsapp', 'contact_email', 'contact_address', 'footer_text'];
+
+        foreach ($keys as $key) {
+            Setting::updateOrCreate(['key' => $key], ['value' => $request->input($key)]);
         }
-        return redirect()->route('admin.setting.edit')->with('success', 'Ayarlar Başarıyla Güncellendi');
+
+        // Logo yükleme işlemi
+        if ($request->hasFile('logo')) {
+            $logo = $request->file('logo');
+            $path = $logo->store('uploads/settings', 'public');
+
+            // Eski logo varsa sil
+            $old = Setting::where('key', 'logo')->value('value');
+            if ($old && Storage::disk('public')->exists($old)) {
+                Storage::disk('public')->delete($old);
+            }
+
+            Setting::updateOrCreate(['key' => 'logo'], ['value' => $path]);
+        }
+
+        cache()->forget('settings'); // Cache temizle
+        return back()->with('success', 'Ayarlar başarıyla güncellendi.');
     }
 }
+

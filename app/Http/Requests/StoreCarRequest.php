@@ -33,7 +33,36 @@ class StoreCarRequest extends FormRequest
             'description' => 'nullable|string|max:1000',
             'is_active' => 'boolean',
             'images' => 'nullable|array',
-            'images.*' => 'image|max:2048'
+            'images.*' => 'image|max:20480'
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'brand.required'         => 'Marka Boş Bırakılamaz',
+            'model.required'         => 'Model Boş Bırakılamaz',
+            'year.required'          => 'Yıl Boş Bırakılamaz',
+            'year.integer'           => 'Yıl Sayısal Değer Olmalıdır',
+            'year.min'               => 'Yıl 1900\'den Küçük Olamaz',
+            'year.max'               => 'Yıl Geçerli Bir Yıl Olmalıdır',
+            'daily_price.required'   => 'Günlük Fiyat Boş Bırakılamaz',
+            'daily_price.numeric'    => 'Günlük Fiyat Sayısal Değer Olmalıdır',
+            'transmission_type.required' => 'Şanzıman Türü Boş Bırakılamaz',
+            'fuel_type.required' => 'Yakıt Türü Boş Bırakılamaz',
+            'seat_count.required' => 'Koltuk Sayısı Boş Bırakılamaz',
+            'seat_count.integer' => 'Koltuk Sayısı Sayısal Değer Olmalıdır',
+            'seat_count.min' => 'Koltuk Sayısı En az 1 Olmalıdır',
+            'seat_count.max' => 'Koltuk Sayısı En Fazla 15 Olabilir',
+            'luggage_capacity.required' => 'Bagaj Kapasitesi Boş Bırakılamaz',
+            'luggage_capacity.integer' => 'Bagaj Kapasitesi Sayısal Değer Olmalıdır',
+            'luggage_capacity.min' => 'Bagaj Kapasitesi En az 0 Olmalıdır',
+            'description.max' => 'Açıklama En Fazla 1000 Karakter Olabilir',
+            'is_active.boolean' => 'Aktif Durumu Doğru veya Yanlış Olmalıdır',
+            'images.*.image' => 'Her Görsel Bir Resim Dosyası Olmalıdır',
+            'images.*.max' => 'Her Görsel En Fazla 20 MB Olabilir'
+        ];
+    }
+
+
 }
