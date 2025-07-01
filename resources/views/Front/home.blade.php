@@ -134,7 +134,7 @@
       @foreach($posts as $post)
         <div class="col-md-4 d-flex ftco-animate">
           <div class="blog-entry justify-content-end">
-            <a href="{{ route('blog.show', $post->id) }}" class="block-20" style="background-image: url('{{ asset('storage/' . ($post->image_path ?? 'default.jpg')) }}');">
+            <a href="{{ route('blog.show', $post->slug) }}" class="block-20" style="background-image: url('{{ asset('storage/' . ($post->image_path ?? 'default.jpg')) }}');">
             </a>
             <div class="text pt-4">
               <div class="meta mb-3">

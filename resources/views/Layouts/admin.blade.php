@@ -1,65 +1,37 @@
+<!-- filepath: resources/views/Layouts/admin.blade.php -->
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Yönetim Paneli')</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body { overflow-x: hidden; }
-        .sidebar .list-group-item.active {
-            background-color: #0d6efd;
-            color: #fff;
-            font-weight: bold;
-        }
-    </style>
-    @yield('css')
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>@yield('title')</title>
+    <!-- Fonts and icons -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+    <!-- Font Awesome Icons -->
+    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Nucleo Icons -->
+    <link href="{{ asset('Admin/argon-dashboard-tailwind-1.0.1/build/assets/css/nucleo-icons.css') }}" rel="stylesheet" />
+    <link href="{{ asset('Admin/argon-dashboard-tailwind-1.0.1/build/assets/css/nucleo-svg.css') }}" rel="stylesheet" />
+    <!-- Main Styling -->
+    <link href="{{ asset('Admin/argon-dashboard-tailwind-1.0.1/build/assets/css/argon-dashboard-tailwind.css') }}" rel="stylesheet" />
+    <!-- Popper -->
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
 </head>
-<body>
-
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand fw-bold" href="{{ route('admin.slider.index') }}">Rent A Car</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#topnav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse justify-content-end" id="topnav">
-            <ul class="navbar-nav">
-                <li class="nav-item text-white me-3 d-flex align-items-center">
-                    Hoş Geldiniz - {{ auth()->user()->name }}
-                </li>
-                <li class="nav-item">
-                    <a href="{{ route('admin.logout') }}" class="nav-link text-danger">Çıkış Yap</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
-
-<div class="container-fluid">
-    <div class="row">
-        <!-- Sidebar -->
-        <div class="col-md-3 col-lg-2 bg-light vh-100 py-3 sidebar">
-            <div class="list-group list-group-flush">
-                <a href="{{ route('admin.slider.index') }}" class="list-group-item list-group-item-action {{ request()->routeIs('admin.slider.*') ? 'active' : '' }}">Slider Yönetimi</a>
-                <a href="{{ route('admin.car.index') }}" class="list-group-item list-group-item-action {{ request()->routeIs('admin.car.*') ? 'active' : '' }}">Araç Yönetimi</a>
-                <a href="{{ route('admin.page.index') }}" class="list-group-item list-group-item-action {{ request()->routeIs('admin.page.*') ? 'active' : '' }}">Sayfa Yönetimi</a>
-                <a href="{{ route('admin.post.index') }}" class="list-group-item list-group-item-action {{ request()->routeIs('admin.post.*') ? 'active' : '' }}">Blog Yönetimi</a>
-                <a href="{{ route('admin.contactmessage.index') }}" class="list-group-item list-group-item-action {{ request()->routeIs('admin.contactmessage.*') ? 'active' : '' }}">Gelen Kutusu</a>
-                <a href="{{ route('admin.setting.edit') }}" class="list-group-item list-group-item-action {{ request()->routeIs('admin.setting.*') ? 'active' : '' }}">Ayarlar Yönetimi</a>
-            </div>
-        </div>
-
-        <!-- Main Content -->
-        <main class="col-md-9 col-lg-10 py-4 px-4">
+<body class="m-0 font-sans text-base antialiased font-normal dark:bg-slate-900 leading-default bg-gray-50 text-slate-500">
+    <div class="absolute w-full bg-blue-500 dark:hidden min-h-75"></div>
+    @include('Admin.partials.sidebar')
+    <main class="relative h-full max-h-screen transition-all duration-200 ease-in-out xl:ml-68 rounded-xl">
+        @include('Admin.partials.navbar')
+        <div class="w-full px-6 py-6 mx-auto">
             @yield('content')
-        </main>
-    </div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
-@yield('js')
+        </div>
+    </main>
+    <!-- plugin for charts  -->
+    <script src="{{ asset('Admin/argon-dashboard-tailwind-1.0.1/build/assets/js/plugins/Chart.min.js') }}" async></script>
+    <!-- plugin for scrollbar  -->
+    <script src="{{ asset('Admin/argon-dashboard-tailwind-1.0.1/build/assets/js/plugins/perfect-scrollbar.min.js') }}" async></script>
+    <!-- main script file  -->
+    <script src="{{ asset('Admin/argon-dashboard-tailwind-1.0.1/build/assets/js/argon-dashboard-tailwind.js') }}" async></script>
 </body>
-</html>
