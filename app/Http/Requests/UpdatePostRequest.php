@@ -24,7 +24,6 @@ class UpdatePostRequest extends FormRequest
         $postid = $this->route('post')->id;
         return [
             'title' => 'required|string|max:255',
-            'content' => 'required|string',
             'slug' => 'required|string|unique:posts,slug,' . $postid,
             'summary' => 'nullable|string',
             'image' => 'nullable|image|max:20480',

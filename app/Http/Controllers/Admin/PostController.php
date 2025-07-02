@@ -15,46 +15,57 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::latest()->get();
-        return view('admin.post.index' ,compact('posts'));
+        return view('admin.post.index', compact('posts'));
     }
+
     public function create()
     {
         return view('admin.post.create');
     }
+
     public function store(StorePostRequest $request)
     {
         $data = $request->validated();
+        $data['content'] = $request->input('content');
+        $data['user_id'] = Auth::id();
 
-        $data['user_id'] = Auth::id();;
-        if($request->hasfile('image')){
-            $data['image_path'] = $request->file('image')->store('uploads/posts' , 'public');
+        if ($request->hasFile('image')) {
+            $data['image_path'] = $request->file('image')->store('uploads/posts', 'public');
         }
+
         Post::create($data);
-        return redirect()->route('admin.post.index')->with('success' , 'Blog Eklendi');
+        return redirect()->route('admin.post.index')->with('success', 'Blog başarıyla eklendi.');
     }
+
     public function edit(Post $post)
     {
-        return view('admin.post.edit' ,  compact('post'));
+        return view('admin.post.edit', compact('post'));
     }
+
     public function update(UpdatePostRequest $request, Post $post)
     {
+
         $data = $request->validated();
-        if($request->hasfile('image')){
-            if($post->image_path){
+        $data['content'] = $request->input('content');
+        $data['user_id'] = Auth::id();
+
+        if ($request->hasFile('image')) {
+            if ($post->image_path) {
                 Storage::disk('public')->delete($post->image_path);
             }
-            $data['image_path'] = $request->file('image')->store('uploads/posts' , 'public');
+            $data['image_path'] = $request->file('image')->store('uploads/posts', 'public');
         }
-        $data['user_id'] = Auth::id();
+
         $post->update($data);
-        return redirect()->route('admin.post.index')->with('success' , 'Blog Güncellendi');
+        return redirect()->route('admin.post.index')->with('success', 'Blog başarıyla güncellendi.');
     }
+
     public function destroy(Post $post)
     {
-        if($post->image_path){
+        if ($post->image_path) {
             Storage::disk('public')->delete($post->image_path);
         }
         $post->delete();
-        return redirect()->route('admin.post.index');
+        return redirect()->route('admin.post.index')->with('success', 'Blog başarıyla silindi.');
     }
 }
