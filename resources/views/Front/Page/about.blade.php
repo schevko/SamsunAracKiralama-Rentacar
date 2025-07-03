@@ -16,7 +16,27 @@
   </div>
 </section>
 <section class="container py-5">
-   {!! nl2br(e($page->content)) !!}
+   {!! $page->content !!}
 </section>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Anasayfa",
+      "item": "{{ url('/') }}"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Hakkımızda",
+      "item": "{{ url()->current() }}"
+    }
+  ]
+}
+</script>
 @endsection
 

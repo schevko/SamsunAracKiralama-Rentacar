@@ -25,6 +25,9 @@
                     </div>
                     @endif
 
+                    <!-- Summernote CSS -->
+                    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+
                     <form method="POST" action="{{ route('admin.page.store') }}">
                         @csrf
 
@@ -46,7 +49,7 @@
                             <div class="w-full max-w-full px-3 shrink-0">
                                 <div class="mb-4">
                                     <label for="content" class="inline-block mb-2 ml-1 font-bold text-xs text-slate-700 dark:text-white/80">İçerik</label>
-                                    <textarea name="content" id="summernote" class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none">{{ old('content', $page->content ?? '') }}</textarea>
+                                    <textarea id="summernote" name="content" class="form-control">{{ old('content', $page->content ?? '') }}</textarea>
                                 </div>
                             </div>
 
@@ -64,11 +67,24 @@
                         </div>
                     </form>
 
+                    <!-- jQuery ve Summernote JavaScript -->
+                    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
                     <script>
                         $(document).ready(function() {
                             $('#summernote').summernote({
                                 height: 300,
-                                placeholder: 'İçerik girin...'
+                                placeholder: 'İçerik girin...',
+                                toolbar: [
+                                    ['style', ['style']],
+                                    ['font', ['bold', 'underline', 'italic', 'clear']],
+                                    ['fontsize', ['fontsize']],
+                                    ['color', ['color']],
+                                    ['para', ['ul', 'ol', 'paragraph']],
+                                    ['table', ['table']],
+                                    ['insert', ['link', 'picture', 'video']],
+                                    ['view', ['fullscreen', 'codeview', 'help']]
+                                ]
                             });
                         });
                     </script>
@@ -77,12 +93,4 @@
         </div>
     </div>
 </div>
-@endsection
-
-@section('css')
-    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote.min.css" rel="stylesheet">
-@endsection
-
-@section('js')
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.20/dist/summernote.min.js"></script>
 @endsection

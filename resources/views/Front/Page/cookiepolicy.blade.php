@@ -15,6 +15,6 @@
   </div>
 </section>
 <section class="container py-5">
-  {!! nl2br(e($page->content)) !!}
+  {!! $page->content !!}
 </section>
 @endsection

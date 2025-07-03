@@ -18,7 +18,7 @@
               <h2 class="ftco-heading-2">Bilgi</h2>
               <ul class="list-unstyled">
                 <li><a href="{{ route('page.about') }}" class="py-2 d-block">Hakkımızda</a></li>
-                <li><a href="{{ route('page.cookiepolicy') }}" class="py-2 d-block">Cookie Politikalar</a></li>
+                <li><a href="{{ route('page.cookiepolicy') }}" class="py-2 d-block">Çerez Politikaları</a></li>
               </ul>
             </div>
           </div>

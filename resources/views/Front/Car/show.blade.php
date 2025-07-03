@@ -1,7 +1,9 @@
 @extends('layouts.front')
 @section('title', 'Rent a Car')
 @section('content')
-    <section class="hero-wrap hero-wrap-2 js-fullheight" style="background-image: url({{ asset('Front/carbook-master/images/bg_3.jpg') }});" data-stellar-background-ratio="0.5">
+   <section class="hero-wrap hero-wrap-2 js-fullheight lazy-bg"
+    data-bg="{{ asset('Front/carbook-master/images/bg_3.jpg') }}"
+    data-stellar-background-ratio="0.5">
       <div class="overlay"></div>
       <div class="container">
         <div class="row no-gutters slider-text js-fullheight align-items-end justify-content-start">
@@ -17,7 +19,10 @@
   <div class="row justify-content-center">
     <div class="col-md-12">
       <div class="car-details">
-        <div class="img rounded" style="background-image: url('{{ asset('storage/' . ($car->images->first()->path ?? 'default.jpg')) }}');"></div>
+        <div class="img rounded lazy-bg"
+            data-bg="{{ asset('storage/' . ($car->images->first()->path ?? 'default.jpg')) }}"
+            style="background-color: #f1f1f1; height: 500px;">
+        </div>
         <div class="text text-center">
           <span class="subheading">{{ $car->brand }}</span>
           <h2>{{ $car->brand }} {{ $car->model }}</h2>
@@ -35,7 +40,7 @@
             <div class="text">
               <h3 class="heading mb-0 pl-3">
                 Vites Türü
-                <span>{{ ucfirst($car->transmission_type) }}</span>
+                <span>{{ translateTransmissionType($car->transmission_type) }}</span>
               </h3>
             </div>
           </div>
@@ -83,7 +88,7 @@
             <div class="text">
               <h3 class="heading mb-0 pl-3">
                 Yakıt Türü
-                <span>{{ ucfirst($car->fuel_type) }}</span>
+                <span>{{ translateFuelType($car->fuel_type) }}</span>
               </h3>
             </div>
           </div>
@@ -113,4 +118,57 @@
 		</div>
       </div>
     </section>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Car",
+  "name": "{{ $car->brand }} {{ $car->model }} {{ $car->year }}",
+  "image": "{{ asset('storage/' . ($car->images->first()->path ?? 'default.jpg')) }}",
+  "description": "{{ preg_replace('/[\r\n]+/', ' ', strip_tags($car->description)) }}",
+  "brand": {
+    "@type": "Brand",
+    "name": "{{ $car->brand }}"
+  },
+  "model": "{{ $car->model }}",
+  "vehicleModelDate": "{{ $car->year }}",
+  "vehicleEngine": {
+    "@type": "EngineSpecification",
+    "fuelType": "{{ $car->fuel_type }}"
+  },
+  "offers": {
+    "@type": "Offer",
+    "priceCurrency": "TRY",
+    "price": "{{ $car->daily_price }}",
+    "availability": "https://schema.org/InStock",
+    "priceValidUntil": "{{ now()->addMonths(6)->format('Y-m-d') }}",
+    "url": "{{ url()->current() }}"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Anasayfa",
+      "item": "{{ url('/') }}"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Araçlar",
+      "item": "{{ route('car.index') }}"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "{{ $car->brand }} {{ $car->model }}",
+      "item": "{{ url()->current() }}"
+    }
+  ]
+}
+</script>
 @endsection

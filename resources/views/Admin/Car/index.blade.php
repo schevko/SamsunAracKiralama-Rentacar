@@ -47,10 +47,10 @@
 
                         <td class="p-2 text-center align-middle bg-transparent border-b dark:border-white/40 whitespace-nowrap shadow-transparent">
                           <div class="flex items-center justify-center gap-2">
-                              <a href="{{ route('admin.car.edit', $car->id) }}" class="block bg-amber-100 text-amber-900 px-3 py-2 rounded font-bold hover:bg-amber-200 transition-all text-sm">
+                              <a href="{{ route('admin.car.edit', $car->slug) }}" class="block bg-amber-100 text-amber-900 px-3 py-2 rounded font-bold hover:bg-amber-200 transition-all text-sm">
                               Düzenle
                               </a>
-                              <form action="{{ route('admin.car.destroy', $car->id) }}" method="POST" class="inline-block">
+                              <form action="{{ route('admin.car.destroy', $car->slug) }}" method="POST" class="inline-block">
                               @csrf
                               @method('DELETE')
                               <button type="submit" class="bg-red-100 text-red-900 px-3 py-2 rounded font-bold hover:bg-red-200 transition-all text-sm" onclick="return confirm('Bu aracı silmek istediğinize emin misiniz?')">
