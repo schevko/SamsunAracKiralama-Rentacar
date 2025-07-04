@@ -6,6 +6,11 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{ $meta_title ?? setting('site_title') }}</title>
 
+    <!-- Owl Carousel CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3gnF4QqKGS9QhRYe1AQqWbDNENZBvYq3xjBgObVVmZ38og7MGdkvEJkG6klPRImwDQFbK+N+aZ1U5kMY0nNw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" integrity="sha512-qtKqbrhMRzDLPAT3O4c6ncdMkI5PhqWImBklDiAOMOVivzZp7W6V1RtK/4mB5lzj15hZyzsZKptYjPxkzGzZpg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
     <!-- Performans için preconnect -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -84,6 +89,9 @@
     <script src="{{ asset('Front/carbook-master/js/owl.carousel.min.js') }}"></script>
     <script src="{{ asset('Front/carbook-master/js/jquery.magnific-popup.min.js') }}"></script>
     <script src="{{ asset('Front/carbook-master/js/scrollax.min.js') }}"></script>
+    <!-- Owl Carousel JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-tS3gnF4QqKGS9QhRYe1AQqWbDNENZBvYq3xjBgObVVmZ38og7MGdkvEJkG6klPRImwDQFbK+N+aZ1U5kMY0nNw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 
     <!-- AOS kütüphanesini CDN üzerinden yükle -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>

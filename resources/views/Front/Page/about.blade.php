@@ -8,7 +8,7 @@
     <div class="row no-gutters slider-text js-fullheight align-items-end justify-content-start">
       <div class="col-md-9 pb-5">
         <p class="breadcrumbs">
-          <a href="{{ route('home') }}">Anasayfa <i class="ion-ios-arrow-forward"></i></a></span> <span> Hakkımızda <i class="ion-ios-arrow-forward"></i></span>
+          <a href="{{ route('home') }}">Anasayfa <i class="ion-ios-arrow-forward"></i>></a></span> <span> Hakkımızda <i class="ion-ios-arrow-forward"></i></span>
         </p>
         <h1 class="mb-3 bread">{{ $page->title }}</h1>
       </div>

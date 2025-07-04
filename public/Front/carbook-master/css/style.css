@@ -9946,3 +9946,28 @@ textarea.form-control {
   100% {
     stroke-dasharray: 89, 200;
     stroke-dashoffset: -136px; } }
+/* ...existing code... */
+
+/* --- MOBİL UYUMLULUK DÜZELTMELERİ --- */
+
+/* Tüm resimlerin kapsayıcılarından taşmasını engelle */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Mobil cihazlarda slider kenar boşluklarını sıfırla */
+@media (max-width: 767px) {
+  .owl-carousel .owl-stage {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+  .owl-carousel .owl-item {
+    margin-right: 0 !important;
+  }
+}
+
+/* Slider'ın ana kapsayıcısının taşmasını engelle */
+.ftco-section {
+    overflow-x: hidden;
+}
