@@ -161,6 +161,9 @@
                                 <h3 class="heading mt-2">
                                     <a href="{{ route('blog.show', $post->slug) }}">{{ Str::limit($post->title, 40) }}</a>
                                 </h3>
+                                <h6 class="heading mt-2">
+                                    <a href="{{ route('blog.show', $post->slug) }}"><p>{{ Str::limit($post->summary, 60) }}</p></a>
+                                </h6>
                                 <p><a href="{{ route('blog.show', $post->slug) }}" class="btn btn-primary">Devamını Oku</a></p>
                             </div>
                         </div>
