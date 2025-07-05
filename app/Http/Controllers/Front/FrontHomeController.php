@@ -15,6 +15,15 @@ class FrontHomeController extends Controller
         $posts = Post::where('is_published' , true)->orderBy('published_at' , 'desc')->paginate(10);
         $about = Page::where('slug' , 'hakkimizda')->where('is_active' , true)->first();
         $featuredcars = Car::where('is_active' , true)->take(4)->get();
-        return view('front.home' ,compact('featuredcars' , 'about' , 'posts'));
+
+        // DÜZENLEME: Meta etiketleri için veri eklendi
+        return view('front.home', [
+            'featuredcars' => $featuredcars,
+            'about' => $about,
+            'posts' => $posts,
+            'meta_title' => setting('site_title'),
+            'meta_description' => setting('site_description')
+        ]);
     }
+
 }

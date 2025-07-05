@@ -11,7 +11,10 @@ class FrontContactController extends Controller
 {
     public function index()
     {
-        return view('front.contact');
+        return view('front.contact' , [
+            'meta_title' => 'İletişim' . ' | ' . setting('site_title'),
+            'meta_description' => 'Bizimle iletişime geçin. Sorularınız, önerileriniz veya rezervasyon talepleriniz için buradayız.',
+        ]);
     }
 
     public function store(StoreContactMessageRequest $request)

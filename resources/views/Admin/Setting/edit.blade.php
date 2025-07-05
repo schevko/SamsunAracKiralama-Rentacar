@@ -33,6 +33,13 @@
                                     <input type="text" name="site_title" id="site_title" value="{{ setting('site_title') }}" class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none" />
                                 </div>
                             </div>
+                                  <div class="w-full max-w-full px-3 shrink-0">
+                                <div class="mb-4">
+                                    <label for="site_description" class="inline-block mb-2 ml-1 font-bold text-xs text-slate-700 dark:text-white/80">Site Açıklaması</label>
+                                    <textarea name="site_description" id="site_description" rows="3" class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none" placeholder="Sitenizi genel olarak anlatan, 150-160 karakterlik bir açıklama girin.">{{ setting('site_description') }}</textarea>
+                                </div>
+                            </div>
+
 
                             <div class="w-full max-w-full px-3 shrink-0 md:w-6/12 md:flex-0">
                                 <div class="mb-4">

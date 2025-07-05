@@ -11,12 +11,20 @@ class FrontBlogController extends Controller
     public function index()
     {
         $posts = Post::where('is_published' , true)->orderBy('published_at' , 'desc')->paginate(10);
-        return view('Front.Blog.index' , compact('posts'));
+        return view('Front.Blog.index' , [
+            'posts' => $posts,
+            'meta_title' => 'Blog' . ' | ' . setting('site_title'),
+            'meta_description' => 'En son haberler, ipuçları ve araç kiralama ile ilgili makaleler için blogumuzu ziyaret edin.',
+        ]);
     }
 
     public function show(string $slug)
     {
         $post = Post::where('slug' , $slug)->where('is_published',  true)->firstOrFail();
-        return view('Front.Blog.show',  compact('post'));
+        return view('Front.Blog.show', [
+            'post' => $post,
+            'meta_title' => $post->title . ' |' . setting('site_title'),
+            'meta_description' => $post->summary,
+        ]);
     }
 }

@@ -12,7 +12,7 @@
                     <div class="text w-100 text-center mb-md-5 pb-md-5">
                         <h1 class="mb-4">Hızlı &amp; Kolay Araç Kiralama</h1>
                         <p style="font-size: 18px;">
-                            Rent a Car firmamız, müşterilerimize güvenli, konforlu ve ekonomik araç kiralama hizmeti sunmaktadır. Geniş araç filomuz, her ihtiyaca ve bütçeye uygun seçenekler ile sizlere en iyi deneyimi yaşatmayı hedefler. Kısa veya uzun dönem kiralama, havaalanı transferi ve özel günleriniz için araç çözümlerimizle her zaman yanınızdayız. Kolay rezervasyon, 7/24 destek ve uygun fiyat avantajlarımızla yolculuğunuzun keyfini çıkarın!
+                            {{ setting('site_description') }}
                         </p>
                     </div>
                 </div>
