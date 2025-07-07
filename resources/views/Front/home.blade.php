@@ -1,5 +1,5 @@
 {{-- filepath: c:\xampp\htdocs\Rent-a-car\resources\views\Front\home.blade.php --}}
-@extends('layouts.front') {{-- 'Layouts' -> 'layouts' olarak düzeltildi --}}
+@extends('Layouts.front')
 @section('title' , 'Anasayfa')
 @section('content')
 
@@ -54,7 +54,7 @@
                                         </div>
                                         <p class="d-flex mb-0 d-block">
                                             <a href="https://wa.me/{{ setting('whatsapp') }}?text={{ urlencode('Bu aracı kiralamak istiyorum: ' . route('car.show', $car->slug)) }}"
-                                               class="btn btn-primary py-2 mr-1">Kirala</a>
+                                               class="btn btn-primary py-2 mr-1" target="_blank">Kirala</a>
                                             <a href="{{ route('car.show', $car->slug) }}" class="btn btn-secondary py-2 ml-1">Araç Detayı</a>
                                         </p>
                                     </div>
@@ -72,7 +72,7 @@
         <div class="container">
             <div class="row no-gutters">
                 <div class="col-md-6 p-md-5 img img-2 d-flex justify-content-center align-items-center lazy-bg"
-                     data-bg="{{ ($about && $about->image_path) ? Storage::url($about->image_path) : asset('assets/images/about.jpg') }}">
+                     data-bg="{{ ($about && $about->image_path) ? Storage::url($about->image_path) : asset('images/default-about.jpg') }}">
                 </div>
                 <div class="col-md-6 wrap-about ftco-animate">
                     <div class="heading-section heading-section-white pl-md-5">
@@ -147,7 +147,8 @@
                     <h2>Son Bloglar</h2>
                 </div>
             </div>
-            <div class="row d-flex">
+            {{-- DÜZELTME: Mobil görünümde ortalamak için justify-content-center eklendi --}}
+            <div class="row d-flex justify-content-center">
                 @foreach($posts as $post)
                     <div class="col-md-4 d-flex ftco-animate">
                         <div class="blog-entry justify-content-end">
@@ -161,9 +162,8 @@
                                 <h3 class="heading mt-2">
                                     <a href="{{ route('blog.show', $post->slug) }}">{{ Str::limit($post->title, 40) }}</a>
                                 </h3>
-                                <h6 class="heading mt-2">
-                                    <a href="{{ route('blog.show', $post->slug) }}"><p>{{ Str::limit($post->summary, 60) }}</p></a>
-                                </h6>
+                                {{-- DÜZELTME: Hatalı HTML yapısı (h6>a>p) düzeltildi --}}
+                                <p>{{ Str::limit($post->summary, 60) }}</p>
                                 <p><a href="{{ route('blog.show', $post->slug) }}" class="btn btn-primary">Devamını Oku</a></p>
                             </div>
                         </div>
@@ -172,9 +172,4 @@
             </div>
         </div>
     </section>
-
-    <!-- loader -->
-    {{-- SVG kodu düzeltildi ve etiketler kapatıldı --}}
-    <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
-
 @endsection

@@ -53,6 +53,35 @@
             .btn { padding: 10px 15px !important; }
         }
 
+ @media (max-width: 768px) {
+  .owl-carousel .owl-stage {
+    display: flex !important;
+    justify-content: center !important;
+  }
+
+  .owl-carousel .owl-item {
+    display: flex !important;
+    justify-content: center !important;
+  }
+
+  .car-wrap {
+    width: 100% !important; /* %100 genişlik */
+    max-width: 95vw; /* Ekranın %95'ine kadar */
+    margin: 0 auto;
+    padding: 1rem;
+  }
+
+  .car-wrap .text {
+    text-align: center;
+  }
+
+  .car-wrap img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+
         /* Lazy loading için stil */
         .lazy {
             opacity: 0;
@@ -60,6 +89,9 @@
         }
         .lazy.loaded {
             opacity: 1;
+        }
+           .carousel-car .owl-stage {
+            margin: 0 auto;
         }
     </style>
 </head>
@@ -74,7 +106,7 @@
 
     @include('Front.partials.footer')
 
-    <!-- Temel JavaScript kütüphaneleri - Sıralama önemli! -->
+    <!-- Temel JavaScript kütüphaneleri -->
     <script src="{{ asset('Front/carbook-master/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('Front/carbook-master/js/jquery-migrate-3.0.1.min.js') }}"></script>
     <script src="{{ asset('Front/carbook-master/js/jquery.easing.1.3.js') }}"></script>
@@ -93,23 +125,18 @@
     <!-- Owl Carousel JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-tS3gnF4QqKGS9QhRYe1AQqWbDNENZBvYq3xjBgObVVmZ38og7MGdkvEJkG6klPRImwDQFbK+N+aZ1U5kMY0nNw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-
-    <!-- AOS kütüphanesini CDN üzerinden yükle -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        // AOS'u başlat
         document.addEventListener('DOMContentLoaded', function() {
             AOS.init();
         });
     </script>
 
-<!-- Lazy Loading için JavaScript - DÜZELTİLDİ -->
+<!-- Lazy Loading için JavaScript -->
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         // Arkaplan görselleri için lazy loading
         var lazyBackgrounds = document.querySelectorAll(".lazy-bg");
-
-        // Observer API kullanılabilir mi kontrol et
         if ("IntersectionObserver" in window) {
             let lazyBackgroundObserver = new IntersectionObserver(function(entries, observer) {
                 entries.forEach(function(entry) {
@@ -141,12 +168,5 @@
 
     <!-- En son main.js'i yükle -->
     <script src="{{ asset('Front/carbook-master/js/main.js') }}"></script>
-
-    <!-- Hata yakalama ve raporlama -->
-    <script>
-        window.addEventListener('error', function(e) {
-            console.log('JavaScript hata yakalama: ', e.message);
-        });
-    </script>
 </body>
 </html>
