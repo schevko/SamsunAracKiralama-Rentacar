@@ -33,7 +33,7 @@
                 <div class="col-md-12">
                     <div class="carousel-car owl-carousel">
                         @foreach($featuredcars as $car)
-                            <div class="item">
+                            <div class="item w-100">
                                 <div class="car-wrap rounded ftco-animate">
                                     @if($car->images->isNotEmpty())
                                         <div class="img rounded d-flex align-items-end lazy-bg"
@@ -55,7 +55,7 @@
                                         <p class="d-flex mb-0 d-block">
                                             <a href="https://wa.me/{{ setting('whatsapp') }}?text={{ urlencode('Bu aracı kiralamak istiyorum: ' . route('car.show', $car->slug)) }}"
                                                class="btn btn-primary py-2 mr-1" target="_blank">Kirala</a>
-                                            <a href="{{ route('car.show', $car->slug) }}" class="btn btn-secondary py-2 ml-1">Araç Detayı</a>
+                                            <a href="{{ route('car.show', $car->slug) }}" class="btn btn-secondary py-2 text-sm ml-1">Araç Detayı</a>
                                         </p>
                                     </div>
                                 </div>
