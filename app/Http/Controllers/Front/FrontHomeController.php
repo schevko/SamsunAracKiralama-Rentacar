@@ -16,7 +16,6 @@ class FrontHomeController extends Controller
         $about = Page::where('slug' , 'hakkimizda')->where('is_active' , true)->first();
         $featuredcars = Car::where('is_active' , true)->take(4)->get();
 
-        // DÜZENLEME: Meta etiketleri için veri eklendi
         return view('front.home', [
             'featuredcars' => $featuredcars,
             'about' => $about,

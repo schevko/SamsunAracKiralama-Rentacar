@@ -7,6 +7,8 @@
     <title>{{ $meta_title ?? setting('site_title') }}</title>
      <meta name="description" content="{{ $meta_description ?? setting('site_description') }}">
 
+     <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
+
     <!-- Owl Carousel CSS -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3gnF4QqKGS9QhRYe1AQqWbDNENZBvYq3xjBgObVVmZ38og7MGdkvEJkG6klPRImwDQFbK+N+aZ1U5kMY0nNw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" integrity="sha512-qtKqbrhMRzDLPAT3O4c6ncdMkI5PhqWImBklDiAOMOVivzZp7W6V1RtK/4mB5lzj15hZyzsZKptYjPxkzGzZpg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
