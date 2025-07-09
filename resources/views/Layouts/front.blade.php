@@ -29,6 +29,7 @@
     <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
 
     <!-- Tema CSS'leri - Basit ve doğrudan yükleme -->
+
     <link rel="stylesheet" href="{{ asset('Front/carbook-master/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('Front/carbook-master/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('Front/carbook-master/css/owl.carousel.min.css') }}">
@@ -170,5 +171,6 @@
 
     <!-- En son main.js'i yükle -->
     <script src="{{ asset('Front/carbook-master/js/main.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </body>
 </html>

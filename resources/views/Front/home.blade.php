@@ -78,12 +78,12 @@
                     <div class="heading-section heading-section-white pl-md-5">
                         @if($about)
                             <span class="subheading">{{ $about->title }}</span>
-                            <h2 class="mb-4">Rent a Car Hoşgeldiniz</h2>
+                            <h2 class="mb-4">SAMSUN ARAÇ KİRALAMAYA HOŞGELDİNİZ</h2>
                             <p>{!! Str::limit(strip_tags($about->content), 300, '...') !!}</p>
                             <p><a href="{{ route('page.about') }}" class="btn btn-primary">Devamını Oku</a></p>
                         @else
                             <span class="subheading">Hakkımızda</span>
-                            <h2 class="mb-4">Rent a Car Hoşgeldiniz</h2>
+                            <h2 class="mb-4">SAMSUN ARAÇ KİRALAMAYA HOŞGELDİNİZ</h2>
                             <p>Hakkımızda içeriği bulunamadı. Lütfen yönetici panelinden ekleyiniz.</p>
                         @endif
                     </div>

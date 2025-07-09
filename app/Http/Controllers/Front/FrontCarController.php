@@ -12,7 +12,7 @@ class FrontCarController extends Controller
     public function index()
     {
         $cars = Car::where('is_active' , true)->latest()->paginate(10);
-        return view('Front.Car.index', [
+        return view('front.car.index', [
             'cars' => $cars,
             'meta_title' => 'Araçlar' . ' | ' . setting('site_title'),
             'meta_description' => 'Geniş araç filomuzla sizlere en iyi deneyimi sunuyoruz. Araçlarımızı inceleyin ve rezervasyon yapın.',
@@ -29,7 +29,7 @@ class FrontCarController extends Controller
                           ->take(4)
                           ->get();
 
-        return view('Front.Car.show', [
+        return view('front.car.show', [
             'car' => $car,
             'similarCars' => $similarCars,
             'meta_title' => $car->brand . ' ' . $car->model . ' | ' . setting('site_title'),

@@ -12,7 +12,7 @@ class FrontPageController extends Controller
      public function showAbout()
     {
         $page = Page::where('slug' , 'hakkimizda')->where('is_active' , true)->firstOrFail();
-        return view('Front.page.about' , [
+        return view('front.page.about' , [
             'page' => $page,
             'meta_title' => $page->title . ' | ' . setting('site_title'),
             'meta_description' => Str::limit($page->content , 150),
@@ -22,7 +22,7 @@ class FrontPageController extends Controller
     public function cookiepolicy()
     {
         $page = Page::where('slug' , 'cerez-politikasi')->where('is_active' , true)->firstOrFail();
-        return view('Front.page.cookiepolicy' ,[
+        return view('front.page.cookiepolicy' ,[
             'page' => $page,
             'meta_title' => $page->title . ' | ' . setting('site_title'),
             'meta_description' => Str::limit($page->content , 150),

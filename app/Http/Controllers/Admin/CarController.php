@@ -7,9 +7,8 @@ use App\Http\Requests\StoreCarRequest;
 use App\Http\Requests\UpdateCarRequest;
 use Illuminate\Http\Request;
 use App\Models\Car;
-use App\Models\CarImage;
 use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Facades\Image;
+
 
 class CarController extends Controller
 {

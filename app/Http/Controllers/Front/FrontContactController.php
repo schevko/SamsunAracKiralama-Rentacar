@@ -21,6 +21,6 @@ class FrontContactController extends Controller
     {
      $data = $request->validated();
      ContactMessage::create($data);
-     return redirect()->back()->with('success' ,  'Mesajınız Başarıyla Gönderildi');
+     return response()->json(['success' => 'Mesajınız Başarıyla Gönderildi']);
     }
 }
