@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\Post;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
@@ -26,6 +27,7 @@ class PostController extends Controller
     public function store(StorePostRequest $request)
     {
         $data = $request->validated();
+        $data['slug'] = Str::slug($data['title']);
         $data['content'] = $request->input('content');
         $data['user_id'] = Auth::id();
 
@@ -47,6 +49,7 @@ class PostController extends Controller
 
         $data = $request->validated();
         $data['content'] = $request->input('content');
+        $data['slug'] = Str::slug($data['title']);
         $data['user_id'] = Auth::id();
 
         if ($request->hasFile('image')) {

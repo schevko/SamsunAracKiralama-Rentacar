@@ -24,7 +24,6 @@ class UpdatePostRequest extends FormRequest
         $postid = $this->route('post')->id;
         return [
             'title' => 'required|string|max:255',
-            'slug' => 'required|string|unique:posts,slug,' . $postid,
             'summary' => 'nullable|string',
             'image' => 'nullable|image|max:20480',
             'is_published' => 'boolean',
@@ -40,9 +39,6 @@ class UpdatePostRequest extends FormRequest
             'title.max' => 'Başlık En Fazla 255 Karakter Olabilir',
             'content.required' => 'İçerik Alanı Zorunludur',
             'content.string' => 'İçerik Alanı Metin Olmalıdır',
-            'slug.required' => 'Slug Alanı Zorunludur',
-            'slug.string' => 'Slug Alanı Metin Olmalıdır',
-            'slug.unique' => 'Bu Slug Daha Önce Kullanılmış',
             'summary.string' => 'Özet Alanı Metin Olmalıdır',
             'image.image' => 'Resim Dosyası Olmalıdır',
             'image.max' => 'Resim En Fazla 20 MB Olabilir',
