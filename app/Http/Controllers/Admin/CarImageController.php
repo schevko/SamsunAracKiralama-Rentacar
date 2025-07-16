@@ -39,15 +39,19 @@ public function store(Request $request, Car $car)
     public function destroy(CarImage $image)
     {
         if($image->path){
-            storage::disk('public')->delete($image->path);
+            Storage::disk('public')->delete($image->path);
         }
         $image->delete();
         return back()->with('success' ,'Resim Başarıyla Silindi');
     }
-    public function setThumbnail(CarImage $image)
-    {
-        CarImage::where('car_id' , $image->car_id)->update(['is_thumbnail' => false]);
-        $image->update(['is_thumbnail' => true]);
-        return back()->with('success' , 'Kapak Resmi Başarıyla Ayarlandı');
+ public function setThumbnail(CarImage $image)
+{
+    CarImage::where('car_id', $image->car_id)->update(['is_thumbnail' => false]);
+    $result = $image->update(['is_thumbnail' => true]);
+    if (!$result) {
+        Log::error('Kapak resmi güncellenemedi', ['image_id' => $image->id]);
+        return back()->with('error', 'Kapak resmi güncellenemedi!');
     }
+    return back()->with('success', 'Kapak Resmi Başarıyla Ayarlandı');
+}
 }

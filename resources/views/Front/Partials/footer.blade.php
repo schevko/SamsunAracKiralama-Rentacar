@@ -4,8 +4,8 @@
         <div class="row mb-5">
           <div class="col-md">
             <div class="ftco-footer-widget mb-4">
-              <h2 class="ftco-heading-2"><a href="#" class="logo">{{ setting('site_title') }}</a></h2>
-              <p>{{ Str::limit(setting('site_description' , 50)) }}</p>
+              <h2 class="ftco-heading-2"><a href="#" class="logo" style="white-space: nowrap;">{{ setting('site_title') }}</a></h2>
+              <p>{{ setting('footer_text') }}</p>
               <ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-5">
                 <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
                 <li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
@@ -47,7 +47,7 @@
           <div class="col-md-12 text-center">
 
             <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-   &copy;<script>document.write(new Date().getFullYear());</script> {{ setting('footer_text') }}<i aria-hidden="true"></i><a href="https://colorlib.com" target="_blank"></a>
+   &copy;<script>document.write(new Date().getFullYear());</script> Samsun Araç Kiralama<i aria-hidden="true"></i><a href="https://colorlib.com" target="_blank"></a>
   <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
           </div>
         </div>

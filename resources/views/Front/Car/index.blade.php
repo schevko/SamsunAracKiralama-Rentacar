@@ -19,34 +19,37 @@
 <section class="ftco-section bg-light">
   <div class="container">
     <div class="row">
-      @forelse($cars as $car)
-        <div class="col-md-4 mb-4">
-          <div class="car-wrap rounded">
-        <div class="img rounded d-flex align-items-end lazy-bg"
-                 data-bg="{{ asset('storage/' . ($car->images->first()->path ?? 'default.jpg')) }}"
-                 style="background-color: #f1f1f1; height: 200px;">
+@forelse($cars as $car)
+  <div class="col-md-4 mb-4">
+    <div class="car-wrap rounded">
+      @php
+        $thumbnail = $car->images->where('is_thumbnail', true)->first() ?? $car->images->first();
+      @endphp
+      <div class="img rounded d-flex align-items-end lazy-bg"
+           data-bg="{{ $thumbnail ? asset('storage/' . $thumbnail->path) : asset('images/default-car.jpg') }}"
+           style="background-color: #f1f1f1; height: 200px;">
+      </div>
+      <div class="text">
+        <h2 class="mb-0">
+          <a href="{{ route('car.show', $car) }}">{{ $car->brand }} {{ $car->model }}</a>
+        </h2>
+        <div class="d-flex mb-3">
+          <span class="cat">{{ translateFuelType($car->fuel_type) }}</span>
+          <p class="price ml-auto">₺{{ number_format($car->daily_price, 2, ',', '.') }} <span>/gün</span></p>
         </div>
-            <div class="text">
-              <h2 class="mb-0">
-                <a href="{{ route('car.show', $car) }}">{{ $car->brand }} {{ $car->model }}</a>
-              </h2>
-              <div class="d-flex mb-3">
-                <span class="cat">{{ translateFuelType($car->fuel_type) }}</span>
-                <p class="price ml-auto">₺{{ number_format($car->daily_price, 2, ',', '.') }} <span>/gün</span></p>
-              </div>
-              <p class="d-flex mb-0 d-block">
-                <a href="https://wa.me/{{ setting('whatsapp') }}?text={{ urlencode('Aracı kiralamak istiyorum: ' . route('car.show', $car)) }}"
-                  class="btn btn-primary py-2 mr-1">Rezervasyon</a>
-                <a href="{{ route('car.show', $car) }}" class="btn btn-secondary py-2 ml-1">Detay</a>
-              </p>
-            </div>
-          </div>
-        </div>
-      @empty
-        <div class="col-12 text-center">
-          <p>Hiç araç bulunamadı.</p>
-        </div>
-      @endforelse
+        <p class="d-flex mb-0 d-block">
+          <a href="https://wa.me/{{ setting('whatsapp') }}?text={{ urlencode('Aracı kiralamak istiyorum: ' . route('car.show', $car)) }}"
+            class="btn btn-primary py-2 mr-1">Rezervasyon</a>
+          <a href="{{ route('car.show', $car) }}" class="btn btn-secondary py-2 ml-1">Detay</a>
+        </p>
+      </div>
+    </div>
+  </div>
+@empty
+  <div class="col-12 text-center">
+    <p>Hiç araç bulunamadı.</p>
+  </div>
+@endforelse
     </div>
     <div class="row mt-5">
       <div class="col text-center">

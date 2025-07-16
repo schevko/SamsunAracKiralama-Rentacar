@@ -1,49 +1,65 @@
-############################################################
-##  Stage 1 – Assets derlemesi (Node + Laravel Mix)
-############################################################
-FROM node:20-alpine AS frontend
+# Use an official PHP image with FPM
+FROM php:8.2-fpm-alpine
 
-WORKDIR /app
-COPY package*.json ./
-RUN npm ci --no-audit --progress=false
+# Install system dependencies and PHP extensions
+RUN apk update && apk add --no-cache \
+    nginx \
+    supervisor \
+    postgresql-dev \
+    libpq \
+    libzip-dev \
+    libpng-dev \
+    jpeg-dev \
+    giflib-dev \
+    freetype-dev \
+    zlib-dev \
+    oniguruma-dev \
+    libxml2-dev \
+    git \
+    curl \
+    unzip \
+    zip \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) \
+        pdo_pgsql \
+        gd \
+        mbstring \
+        exif \
+        bcmath \
+        fileinfo \
+        xml \
+        zip
 
-# Kaynakları kopyala ve derle
-COPY resources ./resources
-# Mix/Vite/webpack dosyan hangisi ise ekle
-COPY webpack.mix.js vite.config.* ./
-RUN npm run prod
+# Install Composer
+COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
-############################################################
-##  Stage 2 – PHP bağımlılıkları (Composer)
-############################################################
-FROM composer:2 AS vendor
+# Set working directory
+WORKDIR /var/www/html
 
-WORKDIR /app
-COPY composer.json composer.lock ./
-RUN composer install --no-dev --no-scripts --prefer-dist --no-interaction
-
-############################################################
-##  Stage 3 – Uygulama (PHP-FPM + Nginx tek imaj)
-############################################################
-FROM webdevops/php-nginx:8.3-alpine
-
-# İsteğe bağlı PHP ayar örnekleri
-ENV PHP_MEMORY_LIMIT=512M \
-    PHP_DATE_TIMEZONE=Europe/Istanbul \
-    PHP_OPCACHE_VALIDATE_TIMESTAMPS=0
-
-WORKDIR /app
-
-# --- Uygulama dosyalarını kopyala ---
-COPY --from=vendor   /app/vendor               ./vendor
-COPY --from=frontend /app/public               ./public
+# Copy application code
 COPY . .
 
-# -- Laravel için izinler --
-RUN mkdir -p storage bootstrap/cache \
- && chown -R application:application storage bootstrap/cache \
- && chmod -R ug+rwx storage bootstrap/cache
+# Set permissions
+RUN chown -R www-data:www-data /var/www/html \
+    && chmod -R 775 /var/www/html/storage \
+    && chmod -R 775 /var/www/html/bootstrap/cache
 
-# Nginx portu (webdevops imajında 80)
+# Install Composer dependencies
+RUN composer install --no-dev --optimize-autoloader
+
+# Copy Nginx configuration
+COPY docker/nginx/default.conf /etc/nginx/http.d/default.conf
+
+# Copy Supervisor configuration
+COPY docker/supervisor/supervisord.conf /etc/supervisord.conf
+
+# Set permissions
+RUN chown -R www-data:www-data /var/www/html \
+    && chmod -R 775 /var/www/html/storage \
+    && chmod -R 775 /var/www/html/bootstrap/cache
+
+# Expose port 80 for Nginx
 EXPOSE 80
-# webdevops zaten supervisord ile php-fpm + nginx’i başlatıyor
+
+# Start Supervisor
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
