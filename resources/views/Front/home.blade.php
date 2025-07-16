@@ -35,15 +35,18 @@
                         @foreach($featuredcars as $car)
                             <div class="item w-100">
                                 <div class="car-wrap rounded ftco-animate">
-                                    @if($car->images->isNotEmpty())
-                                        <div class="img rounded d-flex align-items-end lazy-bg"
-                                             data-bg="{{ $car->images->first()->getUrl('medium') }}">
-                                        </div>
-                                    @else
-                                        <div class="img rounded d-flex align-items-end lazy-bg"
-                                             data-bg="{{ asset('images/default-car.jpg') }}">
-                                        </div>
-                                    @endif
+                        @if($car->images->isNotEmpty())
+                                @php
+                                    $thumbnail = $car->images->where('is_thumbnail', true)->first() ?? $car->images->first();
+                                @endphp
+                                <div class="img rounded d-flex align-items-end lazy-bg"
+                                    data-bg="{{ $thumbnail->getUrl('medium') }}">
+                                </div>
+                            @else
+                                <div class="img rounded d-flex align-items-end lazy-bg"
+                                    data-bg="{{ asset('images/default-car.jpg') }}">
+                                </div>
+                            @endif
                                     <div class="text">
                                         <h2 class="mb-0">
                                             <a href="{{ route('car.show', $car->slug) }}">{{ $car->brand }} {{ $car->model }}</a>
@@ -147,7 +150,6 @@
                     <h2>Son Bloglar</h2>
                 </div>
             </div>
-            {{-- DÜZELTME: Mobil görünümde ortalamak için justify-content-center eklendi --}}
             <div class="row d-flex justify-content-center">
                 @foreach($posts as $post)
                     <div class="col-md-4 d-flex ftco-animate">
@@ -162,7 +164,6 @@
                                 <h3 class="heading mt-2">
                                     <a href="{{ route('blog.show', $post->slug) }}">{{ Str::limit($post->title, 40) }}</a>
                                 </h3>
-                                {{-- DÜZELTME: Hatalı HTML yapısı (h6>a>p) düzeltildi --}}
                                 <p>{{ Str::limit($post->summary, 60) }}</p>
                                 <p><a href="{{ route('blog.show', $post->slug) }}" class="btn btn-primary">Devamını Oku</a></p>
                             </div>

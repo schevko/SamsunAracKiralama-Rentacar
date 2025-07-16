@@ -13,8 +13,8 @@
           </div>
         </div>
       </div>
-    </section>
 
+    </section>
     <section class="ftco-section">
       <div class="container">
         @foreach ($posts as $post )
