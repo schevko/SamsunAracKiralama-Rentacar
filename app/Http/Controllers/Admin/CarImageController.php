@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Log;
 
 class CarImageController extends Controller
 {
-public function store(Request $request, Car $car)
+    public function store(Request $request, Car $car)
 {
     $request->validate([
         'images' => 'required|array',
@@ -44,7 +44,7 @@ public function store(Request $request, Car $car)
         $image->delete();
         return back()->with('success' ,'Resim Başarıyla Silindi');
     }
- public function setThumbnail(CarImage $image)
+    public function setThumbnail(CarImage $image)
 {
     CarImage::where('car_id', $image->car_id)->update(['is_thumbnail' => false]);
     $result = $image->update(['is_thumbnail' => true]);

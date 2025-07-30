@@ -15,9 +15,9 @@ class IsAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(!auth()->check() || !auth()->user()->is_admin){
-            abort(403 , 'Bu sayfaya erişim izniniz yok');
-        }
+       if(auth()->check() && !in_array(auth()->user()->is_admin , [1,0])){
+        abort(403, 'Bu sayfaya erişim izniniz yok');
+       }
         return $next($request);
     }
 }

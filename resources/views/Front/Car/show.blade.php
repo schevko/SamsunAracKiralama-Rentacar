@@ -25,7 +25,6 @@
                     <div class="car-details">
                         {{-- SLIDER BAŞLANGICI --}}
                         @if($car->images->isNotEmpty())
-                            {{-- DEĞİŞİKLİK: Slider ayarları doğrudan HTML'e eklendi ve özel script kaldırıldı --}}
                             <div class="carousel-car owl-carousel"
                                  data-loop="{{ $car->images->count() > 1 ? 'true' : 'false' }}"
                                  data-items="1"
@@ -193,6 +192,5 @@
     }
     </script>
 
-    {{-- Özel script bloğu tamamen kaldırıldı --}}
 
 @endsection

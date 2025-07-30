@@ -1,5 +1,5 @@
 {{-- filepath: c:\xampp\htdocs\Rent-a-car\resources\views\Front\home.blade.php --}}
-@extends('Layouts.front')
+@extends('layouts.front')
 @section('title' , 'Anasayfa')
 @section('content')
 

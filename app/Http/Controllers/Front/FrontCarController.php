@@ -9,9 +9,19 @@ use Illuminate\Support\Str;
 
 class FrontCarController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $cars = Car::where('is_active' , true)->latest()->paginate(10);
+        $query = Car::where('is_active' , true);
+        if ($request->filled('min_price')) {
+            $query->where('daily_price' , '>=' , $request->input('min_price'));
+        }
+        if ($request->filled('max_price')) {
+            $query->where('daily_price' , '<=' , $request->input('max_price'));
+        }
+        if($request->filled('transmission_type')){
+            $query->where('transmission_type', $request->input('transmission_type'));
+        }
+        $cars = $query->latest()->paginate(20);
         return view('front.car.index', [
             'cars' => $cars,
             'meta_title' => 'Araçlar' . ' | ' . setting('site_title'),
@@ -21,7 +31,7 @@ class FrontCarController extends Controller
 
     public function show(car $car)
     {
-              abort_unless($car->is_active, 404); // inaktif araçlar gösterilmesin
+              abort_unless($car->is_active, 404);
 
         $similarCars = Car::where('brand', $car->brand)
                           ->where('id', '!=', $car->id)

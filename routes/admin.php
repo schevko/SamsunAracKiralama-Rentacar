@@ -9,6 +9,8 @@ use App\Http\Controllers\Admin\CarImageController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\DashboardController;
 
 
 Route::prefix('/admin/slider')->middleware(['is_admin'])->name('admin.')->group(function(){
@@ -67,15 +69,26 @@ Route::prefix('/admin/setting')->middleware(['is_admin'])->name('admin.')->group
 
 Route::get('/admin/dashboard', function(){
     return view('admin.dashboard');
-})->middleware(['is_admin'])->name('admin.dashboard');
+})->name('admin.dashboard');
 
-Route::prefix('/admin/auth')->name('admin.')->group(function(){
+Route::prefix('/admin/auth')->name('admin.')->middleware(['is_admin'])->group(function(){
     Route::get('/register' , [RegisterController::class, 'showRegisterForm'])->name('register');
     Route::post('/register' , [RegisterController::class, 'register'])->name('register.post');
     Route::get('/login' , [LoginController::class, 'showLoginForm'])->name('login');
     Route::post('/login' , [LoginController::class , 'login'])->name('login.post');
     Route::get('/logout' , [LoginController::class, 'logout'])->name('logout');
 });
+
+Route::prefix('/admin/user')->middleware(['is_admin'])->name('admin.')->group(function(){
+    Route::get('/' , [UserController::class, 'index'])->name('user.index');
+    Route::get('/create',  [UserController::class, 'create'])->name('user.create');
+    Route::post('/store',  [UserController::class, 'store'])->name('user.store');
+    Route::get('/edit/{user}' , [UserController::class, 'edit'])->name('user.edit');
+    Route::put('/update/{user}' , [UserController::class, 'update'])->name('user.update');
+    Route::delete('/destroy/{user}' , [UserController::class, 'destroy'])->name('user.destroy');
+});
+
+Route::get('/admin/dashboard' , [DashboardController::class, 'index'])->name('admin.dashboard');
 
 
 

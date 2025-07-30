@@ -1,4 +1,4 @@
-@extends('Layouts.admin')
+@extends('layouts.admin')
 @section('title', 'İletişim Mesajları')
 @section('content')
     <div class="flex flex-wrap -mx-3">

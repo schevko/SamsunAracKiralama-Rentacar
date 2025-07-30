@@ -66,6 +66,11 @@
             </form>
           </div>
         </div>
+        <div class="row mt-5">
+    <div class="col-12">
+        <div id="map" style="width: 100%; height: 400px; border-radius: 12px; overflow: hidden;"></div>
+    </div>
+</div>
       </div>
     </section>
     <script type="application/ld+json">
@@ -125,5 +130,23 @@ $(document).ready(function() {
         });
     });
 });
+</script>
+<script>
+  function initMap() {
+    // Şirketinizin enlem ve boylamını girin (örnek: Ankara)
+    var konum = { lat: 39.9334, lng: 32.8597 };
+    var map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 15,
+      center: konum
+    });
+    var marker = new google.maps.Marker({
+      position: konum,
+      map: map,
+      title: 'Şirketimiz'
+    });
+  }
+</script>
+<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=API_ANAHTARINIZ&callback=initMap">
 </script>
 @endsection

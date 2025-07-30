@@ -18,8 +18,13 @@ class LoginController extends Controller
             'email' => 'required|email',
             'password' => 'required|min:8'
         ]);
-      if(Auth::attempt(array_merge($credentials , ['is_admin' => true]))){
-        return redirect()->route('admin.dashboard');
+      if (Auth::attempt($credentials)) {
+        if (in_array(Auth::user()->is_admin, [0, 1])) {
+          return redirect()->route('admin.dashboard');
+        } else {
+          Auth::logout();
+          return redirect()->back()->withErrors(['email' => 'Bu kullanıcı admin paneline giriş yapamaz']);
+        }
       }
       return redirect()->back()->withErrors(['email' => 'Bu kullanıcı bulunamadı']);
     }

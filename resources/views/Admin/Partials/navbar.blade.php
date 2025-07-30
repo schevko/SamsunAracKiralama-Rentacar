@@ -1,4 +1,3 @@
-{{-- filepath: c:\xampp\htdocs\Rent-a-car\resources\views\Admin\partials\navbar.blade.php --}}
 <nav class="relative flex flex-wrap items-center justify-between px-0 py-2 mx-6 transition-all ease-in shadow-none duration-250 rounded-2xl lg:flex-nowrap lg:justify-start" navbar-main navbar-scroll="false">
     <div class="flex items-center justify-between w-full px-4 py-1 mx-auto flex-wrap-inherit">
 
@@ -20,13 +19,16 @@
             <ul class="flex flex-row justify-end pl-0 mb-0 list-none">
                 <!-- Hoşgeldiniz Mesajı -->
                 <li class="flex items-center mr-4">
-                    <span class="inline-block font-semibold text-sm text-slate-700 dark:text-white">Hoşgeldiniz, {{ auth()->user()->name }}</span>
+                    <span class="inline-block font-semibold text-sm text-white">Hoşgeldiniz, {{ auth()->user()->name }}</span>
                 </li>
 
                 <!-- Çıkış Butonu  -->
                 <li class="flex items-center">
-                    <a href="{{ route('admin.logout') }}" class="inline-block px-4 py-1.5 mb-0 text-xs font-bold leading-normal text-white align-middle transition-all ease-in bg-gradient-to-tl from-red-600 to-rose-400 border-0 rounded-lg shadow-md hover:shadow-lg hover:-translate-y-px active:opacity-85">
-                        <i class="fas fa-sign-out-alt mr-1"></i> Çıkış
+                    <a href="{{ route('admin.logout') }}" class="inline-flex items-center gap-2 px-6 py-2 text-sm font-bold text-white uppercase bg-red-600 rounded-lg shadow-md hover:bg-red-700 hover:scale-105 transition-all duration-200 border-0 focus:outline-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H7a2 2 0 01-2-2V7a2 2 0 012-2h4a2 2 0 012 2v1" />
+                        </svg>
+                        <span class="tracking-wide">Çıkış</span>
                     </a>
                 </li>
             </ul>
