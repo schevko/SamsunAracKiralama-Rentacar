@@ -1,1 +1,4 @@
-{"schemaVersion":2,"dockerfilePath":"./Dockerfile","containerHttpPort":80}
+{
+"schemaVersion":2,
+"dockerfilePath":"./Dockerfile"
+}
