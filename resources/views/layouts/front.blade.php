@@ -103,11 +103,11 @@
     <script src="{{ asset('Front/carbook-master/js/jquery.min.js') }}"></script>
         <!-- BURAYI KONTROL EDİN: Orijinal jQuery'den sonra kendi JS kodlarınız varsa geri ekleyin -->
 
-    @include('Front.partials.navbar')
+    @include('front.partials.navbar')
 
     @yield('content')
 
-    @include('Front.partials.footer')
+    @include('front.partials.footer')
 
     <!-- Temel JavaScript kütüphaneleri -->
     <script src="{{ asset('Front/carbook-master/js/bootstrap.min.js') }}"></script>
