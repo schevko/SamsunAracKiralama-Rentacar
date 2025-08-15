@@ -7,7 +7,6 @@ use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\ContactMessageController;
 use App\Http\Controllers\Admin\CarImageController;
 use App\Http\Controllers\Admin\SettingController;
-use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -72,8 +71,6 @@ Route::get('/admin/dashboard', function(){
 })->name('admin.dashboard');
 
 Route::prefix('/admin/auth')->name('admin.')->middleware(['is_admin'])->group(function(){
-    Route::get('/register' , [RegisterController::class, 'showRegisterForm'])->name('register');
-    Route::post('/register' , [RegisterController::class, 'register'])->name('register.post');
     Route::get('/login' , [LoginController::class, 'showLoginForm'])->name('login');
     Route::post('/login' , [LoginController::class , 'login'])->name('login.post');
     Route::get('/logout' , [LoginController::class, 'logout'])->name('logout');

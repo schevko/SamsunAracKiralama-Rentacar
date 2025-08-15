@@ -74,8 +74,7 @@
     <section class="ftco-section ftco-about">
         <div class="container">
             <div class="row no-gutters">
-                <div class="col-md-6 p-md-5 img img-2 d-flex justify-content-center align-items-center lazy-bg"
-                     data-bg="{{ ($about && $about->image_path) ? Storage::url($about->image_path) : asset('images/default-about.jpg') }}">
+                <div class="col-md-6 p-md-5 img img-2 d-flex justify-content-center align-items-center lazy-bg">
                 </div>
                 <div class="col-md-6 wrap-about ftco-animate">
                     <div class="heading-section heading-section-white pl-md-5">

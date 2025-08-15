@@ -51,7 +51,7 @@
 
 	// loader
 	var loader = function() {
-		setTimeout(function() { 
+		setTimeout(function() {
 			if($('#ftco-loader').length > 0) {
 				$('#ftco-loader').removeClass('show');
 			}
@@ -64,23 +64,47 @@
 
 	var carousel = function() {
 		$('.carousel-car').owlCarousel({
-			center: true,
+			center: false,
 			loop: true,
 			autoplay: true,
+			autoplayTimeout: 4000,
+			autoplayHoverPause: true,
 			items:1,
-			margin: 30,
+			margin: 20,
 			stagePadding: 0,
 			nav: false,
+			dots: true,
+			mouseDrag: true,
+			touchDrag: true,
+			pullDrag: true,
 			navText: ['<span class="ion-ios-arrow-back">', '<span class="ion-ios-arrow-forward">'],
 			responsive:{
 				0:{
-					items: 1
+					items: 1,
+					stagePadding: 5,
+					margin: 5,
+					center: false
 				},
-				600:{
-					items: 2
+				576:{
+					items: 1,
+					stagePadding: 10,
+					margin: 10,
+					center: false
 				},
-				1000:{
-					items: 3
+				768:{
+					items: 2,
+					margin: 15,
+					center: false
+				},
+				992:{
+					items: 3,
+					margin: 15,
+					center: false
+				},
+				1200:{
+					items: 3,
+					margin: 15,
+					center: false
 				}
 			}
 		});
@@ -142,19 +166,19 @@
 
 			if (st > 150) {
 				if ( !navbar.hasClass('scrolled') ) {
-					navbar.addClass('scrolled');	
+					navbar.addClass('scrolled');
 				}
-			} 
+			}
 			if (st < 150) {
 				if ( navbar.hasClass('scrolled') ) {
 					navbar.removeClass('scrolled sleep');
 				}
-			} 
+			}
 			if ( st > 350 ) {
 				if ( !navbar.hasClass('awake') ) {
-					navbar.addClass('awake');	
+					navbar.addClass('awake');
 				}
-				
+
 				if(sd.length > 0) {
 					sd.addClass('sleep');
 				}
@@ -194,7 +218,7 @@
 	};
 
 	var counter = function() {
-		
+
 		$('#section-counter, .hero-wrap, .ftco-counter').waypoint( function( direction ) {
 
 			if( direction === 'down' && !$(this.element).hasClass('ftco-animated') ) {
@@ -211,7 +235,7 @@
 					  }, 7000
 					);
 				});
-				
+
 			}
 
 		} , { offset: '95%' } );
@@ -225,7 +249,7 @@
 		$('.ftco-animate').waypoint( function( direction ) {
 
 			if( direction === 'down' && !$(this.element).hasClass('ftco-animated') ) {
-				
+
 				i++;
 
 				$(this.element).addClass('item-animate');
@@ -247,9 +271,9 @@
 							el.removeClass('item-animate');
 						},  k * 50, 'easeInOutExpo' );
 					});
-					
+
 				}, 100);
-				
+
 			}
 
 		} , { offset: '95%' } );
@@ -319,6 +343,42 @@
 	  'autoclose': true
 	});
 	$('#time_pick').timepicker();
+
+	// Lazy background images için resim ortalama ve boyutlandırma
+	var lazyBackgrounds = function() {
+		$('.lazy-bg').each(function() {
+			var $this = $(this);
+			var bgImage = $this.data('bg');
+
+			if (bgImage) {
+				$this.css({
+					'background-image': 'url(' + bgImage + ')',
+					'background-size': 'contain',
+					'background-position': 'center center',
+					'background-repeat': 'no-repeat'
+				});
+			}
+		});
+	};
+	lazyBackgrounds();
+
+	// Carousel resimlerini özel olarak ayarla
+	var carouselImages = function() {
+		$('.carousel-car .car-wrap .img').each(function() {
+			var $this = $(this);
+			$this.css({
+				'height': '200px',
+				'background-size': 'contain',
+				'background-position': 'center center',
+				'background-repeat': 'no-repeat'
+			});
+		});
+	};
+
+	// Carousel yüklendikten sonra resim ayarlarını uygula
+	setTimeout(function() {
+		carouselImages();
+	}, 500);
 
 
 
