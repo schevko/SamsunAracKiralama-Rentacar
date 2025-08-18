@@ -7,7 +7,7 @@
     <div class="fixed-contact-buttons">
         {{-- WhatsApp Butonu --}}
         @if(setting('whatsapp'))
-            <a href="https://wa.me/{{ setting('whatsapp') }}?text={{ urlencode('Merhaba, araç kiralama hakkında bilgi almak istiyorum.') }}"
+            <a href="https://wa.me/{{ preg_replace('/[\+\s\(\)\-]/', '', setting('whatsapp')) }}?text={{ urlencode('Merhaba, araç kiralama hakkında bilgi almak istiyorum.') }}"
                target="_blank"
                class="contact-btn whatsapp-btn"
                title="WhatsApp ile İletişim">
