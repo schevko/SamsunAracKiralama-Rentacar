@@ -81,15 +81,15 @@
 			responsive:{
 				0:{
 					items: 1,
-					stagePadding: 5,
-					margin: 5,
-					center: false
+					stagePadding: 0,
+					margin: 0,
+					center: true
 				},
 				576:{
 					items: 1,
-					stagePadding: 10,
-					margin: 10,
-					center: false
+					stagePadding: 0,
+					margin: 0,
+					center: true
 				},
 				768:{
 					items: 2,
