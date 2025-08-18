@@ -37,6 +37,7 @@
 	              <ul>
 	                <li><span class="icon icon-map-marker"></span><span class="text">{{ setting('contact_address') }}</span></li>
 	                <li><a href="#"><span class="icon icon-phone"></span><span class="text">{{ setting('whatsapp') }}</span></a></li>
+	                <li><a href="#"><span class="icon icon-phone"></span><span class="text">{{ setting('phone') }}</span></a></li>
 	                <li><a href="#"><span class="icon icon-envelope"></span><span class="text">{{ setting('contact_email') }}</span></a></li>
 	              </ul>
 	            </div>
