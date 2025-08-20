@@ -1,9 +1,7 @@
 @extends('layouts.front')
 @section('title', 'Blog')
 @section('content')
-    <section class="hero-wrap hero-wrap-2 js-fullheight lazy-bg"
-             data-bg="{{ asset('front/carbook-master/images/bg_3.jpg') }}"
-             data-stellar-background-ratio="0.5">
+    <section class="hero-wrap hero-wrap-2 js-fullheight" style="background-image: url({{ asset('front/carbook-master/images/bg_3.jpg') }});" data-stellar-background-ratio="0.5">
       <div class="overlay"></div>
       <div class="container">
         <div class="row no-gutters slider-text js-fullheight align-items-end justify-content-start">
@@ -13,7 +11,6 @@
           </div>
         </div>
       </div>
-
     </section>
     <section class="ftco-section">
       <div class="container">
@@ -23,7 +20,7 @@
               <div class="blog-entry justify-content-end mb-md-5">
               <a href="{{ route('blog.show' , $post->slug) }}" class="block-20 img lazy-bg"
                  data-bg="{{ asset('storage/' . ($post->image_path ?? 'default.jpg')) }}"
-                 style="background-color: #f1f1f1;">
+                 style="background-color: #f1f1f1; background-size: cover; background-position: center; background-repeat: no-repeat;">
               </a>
               <div class="text px-md-5 pt-4">
                   <div class="meta mb-3">
@@ -59,4 +56,28 @@
       ]
     }
     </script>
+
+<script>
+// Lazy loading için resim yükleme
+document.addEventListener('DOMContentLoaded', function() {
+    const lazyBgElements = document.querySelectorAll('.lazy-bg');
+
+    const lazyBgObserver = new IntersectionObserver(function(entries, observer) {
+        entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+                const bgUrl = entry.target.getAttribute('data-bg');
+                if (bgUrl) {
+                    entry.target.style.backgroundImage = `url(${bgUrl})`;
+                    entry.target.classList.remove('lazy-bg');
+                    observer.unobserve(entry.target);
+                }
+            }
+        });
+    });
+
+    lazyBgElements.forEach(function(element) {
+        lazyBgObserver.observe(element);
+    });
+});
+</script>
 @endsection
