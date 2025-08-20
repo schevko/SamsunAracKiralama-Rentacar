@@ -155,6 +155,15 @@
             }
         }
 
+        /* Hero alanı açıklama metni */
+        .hero-description {
+            font-size: 16px;
+            line-height: 1.6;
+            font-weight: 400;
+            color: #fff;
+            margin-bottom: 30px;
+        }
+
         /* Mobil responsive */
         @media (max-width: 768px) {
             .fixed-contact-buttons {
@@ -165,6 +174,12 @@
                 flex-direction: row;
                 width: 100%;
                 gap: 0;
+            }
+
+            .hero-description {
+                font-size: 12px;
+                line-height: 1.4;
+                margin-bottom: 20px;
             }
 
             .contact-btn {
@@ -208,7 +223,7 @@
                 <div class="col-lg-8 ftco-animate">
                     <div class="text w-100 text-center mb-md-5 pb-md-5">
                         <h1 class="mb-4">Hızlı &amp; Kolay Araç Kiralama</h1>
-                        <p style="font-size: 18px;">
+                        <p class="hero-description">
                             {{ setting('site_description') }}
                         </p>
                     </div>
