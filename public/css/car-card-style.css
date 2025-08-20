@@ -1,0 +1,123 @@
+/* Araç Kartları için CSS */
+.car-card {
+    overflow: hidden;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.car-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.car-image {
+    width: 100%;
+    height: 220px;
+    background-size: cover !important;
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
+    transition: transform 0.5s ease;
+}
+
+.car-card:hover .car-image {
+    transform: scale(1.02);
+}
+
+.car-details {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.car-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.car-title a {
+    color: #333;
+    text-decoration: none;
+}
+
+.car-title a:hover {
+    color: #01d28e;
+}
+
+.fuel-type {
+    font-size: 14px;
+    padding: 3px 10px;
+    background-color: #f8f9fa;
+    border-radius: 15px;
+    color: #666;
+    display: inline-block;
+}
+
+.price-tag {
+    font-size: 20px;
+    font-weight: 700;
+    color: #01d28e;
+}
+
+.price-period {
+    font-size: 14px;
+    font-weight: 400;
+    color: #888;
+}
+
+.car-actions {
+    margin-top: auto;
+    gap: 10px;
+}
+
+.btn-reservation {
+    background-color: #01d28e;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-details {
+    background-color: #1089ff;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-reservation:hover {
+    background-color: #00b578;
+    color: white;
+}
+
+.btn-details:hover {
+    background-color: #0a74d4;
+    color: white;
+}
+
+/* Mobil görünüm optimizasyonu */
+@media (max-width: 768px) {
+    .car-card {
+        margin-bottom: 20px;
+    }
+
+    .car-image {
+        height: 180px;
+    }
+
+    .car-title {
+        font-size: 16px;
+    }
+
+    .price-tag {
+        font-size: 18px;
+    }
+}

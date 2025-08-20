@@ -42,8 +42,8 @@
     <link rel="stylesheet" href="{{ asset('front/carbook-master/css/animate.css') }}">
     <link rel="stylesheet" href="{{ asset('front/carbook-master/css/flaticon.css') }}">
     <link rel="stylesheet" href="{{ asset('front/carbook-master/css/icomoon.css') }}">
-
-    <!-- Kritik CSS - Mobil uyumluluk için güncellendi -->
+    <link rel="stylesheet" href="{{ asset('css/custom-car-style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/car-card-style.css') }}">    <!-- Kritik CSS - Mobil uyumluluk için güncellendi -->
     <style>
         body { font-family: 'Poppins', sans-serif; margin: 0; }
         .hero-wrap { position: relative; }

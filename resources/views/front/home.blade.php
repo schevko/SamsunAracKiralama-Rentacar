@@ -243,41 +243,40 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-12">
-                    <div class="carousel-car owl-carousel">
-                        @foreach($featuredcars as $car)
-                            <div class="item w-100">
-                                <div class="car-wrap rounded ftco-animate">
-                        @if($car->images->isNotEmpty())
+                @foreach($featuredcars as $car)
+                    <div class="col-md-4 mb-4">
+                        <div class="car-card bg-white rounded shadow">
+                            @if($car->images->isNotEmpty())
                                 @php
                                     $thumbnail = $car->images->where('is_thumbnail', true)->first() ?? $car->images->first();
                                 @endphp
-                                <div class="img rounded d-flex align-items-end lazy-bg"
-                                    data-bg="{{ $thumbnail->getUrl('medium') }}">
+                                <div class="car-image rounded-top lazy-bg"
+                                     data-bg="{{ $thumbnail->getUrl('medium') }}">
                                 </div>
                             @else
-                                <div class="img rounded d-flex align-items-end lazy-bg"
-                                    data-bg="{{ asset('images/default-car.jpg') }}">
+                                <div class="car-image rounded-top lazy-bg"
+                                     data-bg="{{ asset('images/default-car.jpg') }}">
                                 </div>
                             @endif
-                                    <div class="text">
-                                        <h2 class="mb-0">
-                                            <a href="{{ route('car.show', $car->slug) }}">{{ $car->brand }} {{ $car->model }}</a>
-                                        </h2>
-                                        <div class="d-flex mb-3">
-                                            <span class="cat">{{ translateFuelType($car->fuel_type) }}</span>
-                                            <p class="price ml-auto">₺{{ number_format($car->daily_price, 2, ',', '.') }} <span>/gün</span></p>
-                                        </div>
-                                        <p class="d-flex mb-0 d-block">
-                                            <a href="https://wa.me/{{ setting('whatsapp') }}?text={{ urlencode('Bu aracı kiralamak istiyorum: ' . route('car.show', $car->slug)) }}"
-                                               class="btn btn-primary py-2 mr-1" target="_blank">Kirala</a>
-                                            <a href="{{ route('car.show', $car->slug) }}" class="btn btn-secondary py-2 text-sm ml-1">Araç Detayı</a>
-                                        </p>
-                                    </div>
+                            <div class="car-details p-4">
+                                <h3 class="car-title">
+                                    <a href="{{ route('car.show', $car->slug) }}">{{ $car->brand }} {{ $car->model }}</a>
+                                </h3>
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <div class="fuel-type">{{ translateFuelType($car->fuel_type) }}</div>
+                                    <div class="price-tag">₺{{ number_format($car->daily_price, 0, ',', '.') }} <span class="price-period">/gün</span></div>
+                                </div>
+                                <div class="d-flex car-actions">
+                                    <a href="https://wa.me/{{ preg_replace('/[\+\s\(\)\-]/', '', setting('whatsapp')) }}?text={{ urlencode('Bu aracı kiralamak istiyorum: ' . route('car.show', $car->slug)) }}"
+                                       class="btn btn-reservation flex-grow-1 mr-2" target="_blank">Rezervasyon</a>
+                                    <a href="{{ route('car.show', $car->slug) }}"
+                                       class="btn btn-details flex-grow-1">Detay</a>
                                 </div>
                             </div>
-                        @endforeach
+                        </div>
                     </div>
+                @endforeach
+            </div>
                 </div>
             </div>
         </div>
