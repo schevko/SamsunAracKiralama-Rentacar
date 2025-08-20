@@ -67,12 +67,20 @@
           </div>
         </div>
         <div class="row mt-5">
-    <div class="col-12">
-        <div id="map" style="width: 100%; height: 400px; border-radius: 12px; overflow: hidden;"></div>
-    </div>
-</div>
+            <div class="col-12">
+                <div id="map" style="width: 100%; height: 400px; border-radius: 12px; overflow: hidden;"></div>
+            </div>
+        </div>
       </div>
     </section>
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+
+    <!-- Leaflet JavaScript -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -93,7 +101,64 @@
   ]
 }
 </script>
+
 <script>
+// Leaflet Harita Başlatma
+document.addEventListener('DOMContentLoaded', function() {
+    // Şirket konumu koordinatları (örnek: Ankara)
+    var lat = 41.231933;
+    var lng = 36.832587;
+
+    // Harita oluştur
+    var map = L.map('map').setView([lat, lng], 15);
+
+    // OpenStreetMap tile layer ekle
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        maxZoom: 19
+    }).addTo(map);
+
+    // Özel marker ikonu
+    var customIcon = L.divIcon({
+        className: 'custom-marker',
+        html: '<div style="background-color: #007bff; width: 30px; height: 30px; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center;"><i class="fa fa-car" style="color: white; font-size: 14px;"></i></div>',
+        iconSize: [36, 36],
+        iconAnchor: [18, 18]
+    });
+
+    // Marker ekle
+    var marker = L.marker([lat, lng], {icon: customIcon}).addTo(map);
+
+    // Popup içeriği
+    var popupContent = `
+        <div style="text-align: center; padding: 10px;">
+            <h6 style="margin-bottom: 8px; color: #007bff;">{{ setting('site_title') ?? 'Rent A Car' }}</h6>
+            <p style="margin: 5px 0; font-size: 13px;"><strong>📍 Adres:</strong><br>{{ setting('contact_address') }}</p>
+            <p style="margin: 5px 0; font-size: 13px;"><strong>📞 Telefon:</strong><br><a href="tel:{{ setting('whatsapp') }}">{{ setting('whatsapp') }}</a></p>
+            <p style="margin: 5px 0; font-size: 13px;"><strong>✉️ Email:</strong><br><a href="mailto:{{ setting('contact_email') }}">{{ setting('contact_email') }}</a></p>
+            <div style="margin-top: 10px;">
+                <a href="https://www.google.com/maps/dir//` + lat + `,` + lng + `" target="_blank"
+                   style="background: #007bff; color: white; padding: 5px 10px; text-decoration: none; border-radius: 4px; font-size: 12px;">
+                   🧭 Yol Tarifi Al
+                </a>
+            </div>
+        </div>
+    `;
+
+    // Marker'a popup ekle
+    marker.bindPopup(popupContent, {
+        maxWidth: 250,
+        className: 'custom-popup'
+    });
+
+    // Harita yüklendiğinde popup'ı aç
+    marker.openPopup();
+
+    // Harita kontrollerini özelleştir
+    map.zoomControl.setPosition('topright');
+});
+
+// Form işlemleri
 $(document).ready(function() {
     $('#contactForm').on('submit', function(e) {
         e.preventDefault();
@@ -131,22 +196,30 @@ $(document).ready(function() {
     });
 });
 </script>
-<script>
-  function initMap() {
-    // Şirketinizin enlem ve boylamını girin (örnek: Ankara)
-    var konum = { lat: 39.9334, lng: 32.8597 };
-    var map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 15,
-      center: konum
-    });
-    var marker = new google.maps.Marker({
-      position: konum,
-      map: map,
-      title: 'Şirketimiz'
-    });
-  }
-</script>
-<script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=API_ANAHTARINIZ&callback=initMap">
-</script>
+
+<style>
+/* Özel popup stilleri */
+.leaflet-popup-content-wrapper {
+    border-radius: 8px;
+    box-shadow: 0 3px 14px rgba(0,0,0,0.4);
+}
+
+.leaflet-popup-content {
+    margin: 8px 12px;
+}
+
+.custom-marker {
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+}
+
+/* Harita loading animasyonu */
+#map {
+    background: linear-gradient(45deg, #f0f0f0 25%, transparent 25%),
+                linear-gradient(-45deg, #f0f0f0 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, #f0f0f0 75%),
+                linear-gradient(-45deg, transparent 75%, #f0f0f0 75%);
+    background-size: 20px 20px;
+    background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+}
+</style>
 @endsection

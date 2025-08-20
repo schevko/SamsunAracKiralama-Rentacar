@@ -18,7 +18,7 @@
 
         {{-- Telefon Butonu --}}
         @if(setting('phone'))
-            <a href="tel:{{ str_replace([' ', '-', '(', ')'], '', setting('phone')) }}"
+            <a href="tel:{{ str_replace([' ', '-', '(', ')'], '', setting('whatsapp')) }}"
                class="contact-btn phone-btn"
                title="Telefon ile Ara">
                 <span class="contact-icon"><i class="fas fa-phone"></i></span>
@@ -292,12 +292,12 @@
                     <div class="heading-section heading-section-white pl-md-5">
                         @if($about)
                             <span class="subheading">{{ $about->title }}</span>
-                            <h2 class="mb-4">SAMSUN ARAÇ KİRALAMAYA HOŞGELDİNİZ</h2>
+                            <h2 class="mb-4">ARACBU YA HOŞGELDİNİZ</h2>
                             <p>{!! Str::limit(strip_tags($about->content), 300, '...') !!}</p>
                             <p><a href="{{ route('page.about') }}" class="btn btn-primary">Devamını Oku</a></p>
                         @else
                             <span class="subheading">Hakkımızda</span>
-                            <h2 class="mb-4">SAMSUN ARAÇ KİRALAMAYA HOŞGELDİNİZ</h2>
+                            <h2 class="mb-4">ARACBU YA HOŞGELDİNİZ</h2>
                             <p>Hakkımızda içeriği bulunamadı. Lütfen yönetici panelinden ekleyiniz.</p>
                         @endif
                     </div>

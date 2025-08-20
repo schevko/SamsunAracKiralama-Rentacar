@@ -2,7 +2,7 @@
   <div class="container">
     <a class="navbar-brand d-flex align-items-center" href="{{ route('home') }}">
       @if(setting('logo'))
-       <img src="{{ url('storage/' . setting('logo')) }}" alt="#" style="height: 90px; margin-right: 10px;">
+       <img src="{{ url('storage/' . setting('logo')) }}" alt="#" style="height: 110px; margin-right: 10px;">
       @endif
       {{ setting('site_title') }}
     </a>

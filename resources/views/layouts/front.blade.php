@@ -7,7 +7,10 @@
     <title>{{ $meta_title ?? setting('site_title') }}</title>
     <meta name="description" content="{{ $meta_description ?? setting('site_description') }}">
 
-    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}?v={{ time() }}">
+    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}?v={{ time() }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('favicon.png') }}?v={{ time() }}">
 
     <!-- Performans için preconnect -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
