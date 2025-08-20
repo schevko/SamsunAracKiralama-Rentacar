@@ -82,9 +82,10 @@
                                     @if(setting('logo'))
                                         <div class="mb-3 p-2 bg-gray-50 dark:bg-slate-800 rounded-lg inline-block">
                                             <img src="{{ asset('storage/' . setting('logo')) }}" class="h-16 object-contain" alt="Logo Önizleme">
+                                            <p class="text-xs text-gray-500 mt-1">* Yeni logo yüklemediğiniz sürece mevcut logo korunacaktır.</p>
                                         </div>
                                     @endif
-                                    <input type="file" name="logo" id="logo" class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none" />
+                                    <input type="file" name="logo" id="logo" class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-blue-500 focus:outline-none" accept="image/*" />
                                 </div>
                             </div>
                         </div>

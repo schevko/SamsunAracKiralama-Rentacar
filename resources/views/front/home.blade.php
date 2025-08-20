@@ -222,10 +222,11 @@
             <div class="row no-gutters slider-text justify-content-start align-items-center justify-content-center">
                 <div class="col-lg-8 ftco-animate">
                     <div class="text w-100 text-center mb-md-5 pb-md-5">
-                        <h1 class="mb-4">Hızlı &amp; Kolay Araç Kiralama</h1>
-                        <p class="hero-description">
+                        <h1 class="mb-4">ARADIĞIN ARAÇ BURADA</h1>
+                        <h1>&amp;</h1>
+                        <h1 class="hero-description">
                             {{ setting('site_description') }}
-                        </p>
+                        </h1>
                     </div>
                 </div>
             </div>
