@@ -6,11 +6,6 @@
             <div class="ftco-footer-widget mb-4">
               <h2 class="ftco-heading-2"><a href="#" class="logo" style="white-space: nowrap;">{{ setting('site_title') }}</a></h2>
               <p>{{ setting('footer_text') }}</p>
-              <ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-5">
-                <li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
-                <li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
-                <li class="ftco-animate"><a href="#"><span class="icon-instagram"></span></a></li>
-              </ul>
             </div>
           </div>
           <div class="col-md">
@@ -18,7 +13,6 @@
               <h2 class="ftco-heading-2">Bilgi</h2>
               <ul class="list-unstyled">
                 <li><a href="{{ route('page.about') }}" class="py-2 d-block">Hakkımızda</a></li>
-                <li><a href="{{ route('page.cookiepolicy') }}" class="py-2 d-block">Çerez Politikaları</a></li>
               </ul>
             </div>
           </div>

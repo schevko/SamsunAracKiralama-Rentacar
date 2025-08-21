@@ -1,10 +1,15 @@
 <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
-  <div class="container">
-    <a class="navbar-brand d-flex align-items-center" href="{{ route('home') }}">
+  <div class="container-fluid">
+    <a class="navbar-brand d-flex" href="{{ route('home') }}" style="align-items: center;">
       @if(setting('logo'))
-       <img src="{{ url('storage/' . setting('logo')) }}" alt="#" style="height: 110px; margin-right: 10px;">
+       <img src="{{ url('storage/' . setting('logo')) }}" alt="{{ setting('site_title') }}"
+            style="height: 100px; margin-right: 10px;"
+            class="img-fluid"
+            loading="eager"
+            width="auto"
+            height="100">
       @endif
-      {{ setting('site_title') }}
+      <span class="fw-bold fs-5 text-white">{{ setting('site_title') }}</span>
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="oi oi-menu"></span> Menu
