@@ -27,7 +27,11 @@ class PostController extends Controller
     public function store(StorePostRequest $request)
     {
         $data = $request->validated();
-        $data['slug'] = Str::slug($data['title']);
+        if (empty($data['slug'])) {
+            $data['slug'] = Str::slug($data['title']);
+        } else {
+            $data['slug'] = Str::slug($data['slug']);
+        }
         $data['content'] = $request->input('content');
         $data['user_id'] = Auth::id();
 
@@ -49,7 +53,11 @@ class PostController extends Controller
 
         $data = $request->validated();
         $data['content'] = $request->input('content');
-        $data['slug'] = Str::slug($data['title']);
+        if (empty($data['slug'])) {
+            $data['slug'] = Str::slug($data['title']);
+        } else {
+            $data['slug'] = Str::slug($data['slug']);
+        }
         $data['user_id'] = Auth::id();
 
         if ($request->hasFile('image')) {

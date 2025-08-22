@@ -23,6 +23,7 @@ class StorePostRequest extends FormRequest
     {
         return [
             'title' => 'required|string|max:255',
+            'slug' => 'nullable|string|max:255',
             'summary' => 'nullable|string',
             'image' => 'nullable|image|max:20480',
             'is_published' => 'boolean',
