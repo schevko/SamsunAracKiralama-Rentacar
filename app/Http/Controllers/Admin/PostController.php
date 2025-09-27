@@ -7,12 +7,20 @@ use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Services\AiBlogService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
+    protected $aiBlogService;
+    public function __construct(AiBlogService $aiblogservice){
+        $this->aiBlogService = $aiblogservice;
+    }
+
+
     public function index()
     {
         $posts = Post::latest()->get();
@@ -78,5 +86,95 @@ class PostController extends Controller
         }
         $post->delete();
         return redirect()->route('admin.post.index')->with('success', 'Blog başarıyla silindi.');
+    }
+
+    public function generateWithAi(Request $request)
+    {
+        $request->validate([
+            'domain' => 'required|url',
+            'location' => 'required|string',
+            'company_name' => 'required|string',
+        ]);
+
+        $result = $this->aiBlogService->generateBlogContent(
+             $request->domain,
+             $request->location,
+             $request->company_name
+        );
+
+        if($result['success']){
+            $post = Post::create([
+                'title' => $result['title'],
+                'content' => $result['content'],
+                'summary' => $result['summary'],
+                'slug' => $result['slug'] ?? Str::slug($request['title']),
+                'is_published' => true,
+                'user_id' => Auth::id(),
+            ]);
+            return redirect()->route('admin.post.index')->with('success', 'Blog başarıyla oluşturuldu.');
+        }
+        return back()->withErrors(['error' => $result['message'] ?? 'Bilinmeyen bir hata oluştu.']);
+    }
+
+    /**
+     * AJAX endpoint for AI blog generation
+     */
+    public function generateWithAiAjax(Request $request)
+    {
+        try {
+            Log::info('AJAX Request received', [
+                'method' => $request->method(),
+                'url' => $request->url(),
+                'data' => $request->all()
+            ]);
+
+            $request->validate([
+                'domain' => 'required|url',
+                'location' => 'required|string|max:100',
+                'company_name' => 'required|string|max:100',
+            ]);
+
+            Log::info('Validation passed, calling AI service');
+
+            $result = $this->aiBlogService->generateBlogContent(
+                $request->domain,
+                $request->location,
+                $request->company_name
+            );
+
+            Log::info('AI Service result', ['result' => $result]);
+
+            if ($result['success']) {
+                return response()->json([
+                    'success' => true,
+                    'data' => [
+                        'title' => $result['title'],
+                        'content' => $result['content'],
+                        'summary' => $result['summary'] ?? Str::limit(strip_tags($result['content']), 200),
+                        'slug' => $result['slug'] ?? Str::slug($result['title']),
+                    ]
+                ]);
+            }
+
+            return response()->json([
+                'success' => false,
+                'error' => $result['error'] ?? 'Bilinmeyen bir hata oluştu.'
+            ], 422);
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            Log::error('Validation error', ['errors' => $e->validator->errors()->all()]);
+            return response()->json([
+                'success' => false,
+                'error' => 'Validation hatası: ' . implode(', ', $e->validator->errors()->all())
+            ], 422);
+        } catch (\Exception $e) {
+            Log::error('AI Blog AJAX Error: ' . $e->getMessage(), [
+                'exception' => $e->getTraceAsString()
+            ]);
+            return response()->json([
+                'success' => false,
+                'error' => 'Sistem hatası: ' . $e->getMessage()
+            ], 500);
+        }
     }
 }

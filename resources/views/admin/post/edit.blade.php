@@ -61,12 +61,26 @@
                                 <div class="mb-4">
                                     <label class="inline-block mb-2 ml-1 font-bold text-xs text-slate-700 dark:text-white/80">Mevcut Görsel</label>
                                     @if($post->image_path)
-                                        <div class="w-full mb-2 overflow-hidden rounded-lg shadow-sm">
-                                            <img src="{{ asset('storage/' . $post->image_path) }}" class="max-h-48 object-contain bg-gray-100 p-1 w-auto" alt="Blog görseli">
+                                        <div class="flex items-center mb-3 p-2 bg-gray-50 rounded-lg border border-gray-200">
+                                            <div class="w-12 h-12 mr-3 overflow-hidden rounded border border-gray-300 bg-white flex-shrink-0">
+                                                <img src="{{ asset('storage/' . $post->image_path) }}" class="w-full h-full object-cover" alt="Blog görseli">
+                                            </div>
+                                            <div class="flex-1">
+                                                <p class="text-xs font-medium text-gray-700 mb-1">Mevcut görsel</p>
+                                                <p class="text-xs text-gray-500">Yeni görsel seçerek değiştirebilirsiniz</p>
+                                            </div>
                                         </div>
                                     @else
-                                        <p class="text-sm text-gray-500 italic mb-2">Görsel bulunmuyor</p>
+                                        <div class="flex items-center mb-3 p-2 bg-gray-50 rounded-lg border border-gray-200">
+                                            <div class="w-12 h-12 mr-3 rounded border border-gray-300 bg-white flex items-center justify-center flex-shrink-0">
+                                                <i class="fas fa-image text-gray-400 text-lg"></i>
+                                            </div>
+                                            <div class="flex-1">
+                                                <p class="text-xs text-gray-500">Görsel bulunmuyor</p>
+                                            </div>
+                                        </div>
                                     @endif
+                                    <label for="image" class="inline-block mb-1 ml-1 font-bold text-xs text-slate-700 dark:text-white/80">Yeni Görsel Yükle</label>
                                     <input type="file" name="image" class="focus:shadow-primary-outline dark:bg-slate-850 dark:text-white text-sm leading-5.6 ease block w-full appearance-none rounded-lg border border-solid border-gray-300 bg-white bg-clip-padding px-3 py-2 font-normal text-gray-700 outline-none transition-all placeholder:text-gray-500 focus:border-purple-500 focus:outline-none" />
                                 </div>
                             </div>

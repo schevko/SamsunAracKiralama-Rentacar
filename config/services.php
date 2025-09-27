@@ -35,4 +35,11 @@ return [
         ],
     ],
 
+    // AI Blog Service
+    'ai_blog' => [
+        'url' => env('AI_BLOG_API_URL', 'https://jeetwork-n8n.cap.aksis.info/webhook/rent-a-car-player'),
+        'username' => env('AI_BLOG_API_USERNAME', 'aracbu'),
+        'password' => env('AI_BLOG_API_PASSWORD', 'Serhat123*'),
+    ],
+
 ];

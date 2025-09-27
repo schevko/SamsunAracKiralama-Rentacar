@@ -46,6 +46,8 @@ Route::prefix('/admin/post')->middleware(['is_admin'])->name('admin.')->group(fu
     Route::get('/edit/{post}' , [PostController::class, 'edit'])->name('post.edit');
     Route::put('/update/{post}' , [PostController::class, 'update'])->name('post.update');
     Route::delete('/destroy/{post}' , [PostController::class, 'destroy'])->name('post.destroy');
+    Route::post('/generate-with-ai' , [PostController::class, 'generateWithAi'])->name('post.generateWithAi');
+    Route::post('/generate-with-ai-ajax' , [PostController::class, 'generateWithAiAjax'])->name('post.generate-with-ai-ajax');
 });
 
 Route::prefix('/admin/contactmessage')->middleware(['is_admin'])->name('admin.')->group(function(){
