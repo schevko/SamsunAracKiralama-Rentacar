@@ -7,6 +7,7 @@ use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Models\AiBlogLimit;
 use App\Services\AiBlogService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -29,7 +30,20 @@ class PostController extends Controller
 
     public function create()
     {
-        return view('admin.post.create');
+        try {
+            $aiUsageStatus = AiBlogLimit::getUsageStatus();
+        } catch (\Exception $e) {
+            // Hata durumunda default değerler
+            $aiUsageStatus = [
+                'used' => 0,
+                'limit' => 20,
+                'remaining' => 20,
+                'exceeded' => false,
+                'month' => date('Y-m')
+            ];
+            Log::warning('AiBlogLimit error, using defaults: ' . $e->getMessage());
+        }
+        return view('admin.post.create', compact('aiUsageStatus'));
     }
 
     public function store(StorePostRequest $request)
@@ -128,6 +142,17 @@ class PostController extends Controller
                 'data' => $request->all()
             ]);
 
+            // Önce limit kontrolü yap
+            if (AiBlogLimit::hasExceededLimit()) {
+                $status = AiBlogLimit::getUsageStatus();
+                return response()->json([
+                    'success' => false,
+                    'error' => "Aylık yapay zeka kullanım limitiniz doldu! Bu ay {$status['used']}/{$status['limit']} hakkınızı kullandınız. Yeni ay için bekleyin.",
+                    'limit_exceeded' => true,
+                    'usage_status' => $status
+                ], 429); // Too Many Requests
+            }
+
             $request->validate([
                 'domain' => 'required|url',
                 'location' => 'required|string|max:100',
@@ -145,6 +170,10 @@ class PostController extends Controller
             Log::info('AI Service result', ['result' => $result]);
 
             if ($result['success']) {
+                // Başarılı AI kullanımında sayacı artır
+                AiBlogLimit::incrementUsage();
+                $updatedStatus = AiBlogLimit::getUsageStatus();
+
                 return response()->json([
                     'success' => true,
                     'data' => [
@@ -152,7 +181,8 @@ class PostController extends Controller
                         'content' => $result['content'],
                         'summary' => $result['summary'] ?? Str::limit(strip_tags($result['content']), 200),
                         'slug' => $result['slug'] ?? Str::slug($result['title']),
-                    ]
+                    ],
+                    'usage_status' => $updatedStatus
                 ]);
             }
 

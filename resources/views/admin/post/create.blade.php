@@ -32,14 +32,36 @@
                             <!-- AI Blog Oluşturma Bölümü - EN BAŞTA -->
                             <div class="w-full max-w-full px-3 shrink-0">
                                 <div class="mb-6 p-4 bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 rounded-lg">
-                                    <h3 class="text-lg font-bold text-slate-700 mb-3 flex items-center">
-                                        <i class="fas fa-magic mr-2 text-purple-600"></i>
-                                        Yapay Zeka ile Blog Oluştur
-                                    </h3>
-                                    <p class="text-sm text-slate-600 mb-4">
-                                        <i class="fas fa-lightbulb mr-1"></i>
-                                        Aşağıdaki bilgileri girerek tüm blog içeriğini yapay zeka ile otomatik oluşturun.
-                                    </p>
+                                    <!-- Kullanım Durumu Paneli -->
+                                    <div class="flex justify-between items-center mb-4 p-3 bg-white rounded-lg border border-blue-100">
+                                        <div>
+                                            <h3 class="text-lg font-bold text-slate-700 flex items-center">
+                                                <i class="fas fa-magic mr-2 text-purple-600"></i>
+                                                Yapay Zeka ile Blog Oluştur
+                                            </h3>
+                                        </div>
+                                        <div class="text-right">
+                                            <div class="text-sm font-semibold text-slate-600">Bu Ay Kullanım</div>
+                                            <div class="text-2xl font-bold {{ $aiUsageStatus['exceeded'] ? 'text-red-600' : 'text-green-600' }}">
+                                                {{ $aiUsageStatus['used'] }} / {{ $aiUsageStatus['limit'] }}
+                                            </div>
+                                            <div class="text-xs text-slate-500">
+                                                {{ $aiUsageStatus['remaining'] }} hak kaldı
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    @if($aiUsageStatus['exceeded'])
+                                        <div class="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-center">
+                                            <i class="fas fa-exclamation-triangle text-red-500 mr-2"></i>
+                                            <span class="text-red-700 font-semibold">Aylık limitiniz doldu! Yeni ayı bekleyin.</span>
+                                        </div>
+                                    @else
+                                        <p class="text-sm text-slate-600 mb-4">
+                                            <i class="fas fa-lightbulb mr-1"></i>
+                                            Aşağıdaki bilgileri girerek tüm blog içeriğini yapay zeka ile otomatik oluşturun.
+                                        </p>
+                                    @endif
 
                                     <div class="flex flex-wrap -mx-2">
                                         <div class="w-full max-w-full px-2 shrink-0 md:w-6/12 md:flex-0">
@@ -65,15 +87,32 @@
 
                                         <div class="w-full max-w-full px-2 shrink-0">
                                             <div class="text-center mt-4">
-                                                <button type="button" id="generateWithAI" onclick="generateAI()" style="background: linear-gradient(135deg, #3B82F6 0%, #8B5CF6 100%); color: white; font-weight: bold; padding: 12px 32px; border-radius: 8px; border: none; cursor: pointer; font-size: 14px; text-transform: uppercase; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: all 0.2s ease;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 15px rgba(0,0,0,0.2)'" onmouseout="this.style.transform='translateY(0px)'; this.style.boxShadow='0 4px 6px rgba(0,0,0,0.1)'">
-                                                    <i class="fas fa-magic" style="margin-right: 8px;"></i>
-                                                    YAPAY ZEKA İLE OLUŞTUR
-                                                </button>
+                                                @if($aiUsageStatus['exceeded'])
+                                                    <button type="button" id="generateWithAI" onclick="generateAI()" disabled
+                                                        style="background: linear-gradient(135deg, #9CA3AF 0%, #6B7280 100%); color: white; font-weight: bold; padding: 12px 32px; border-radius: 8px; border: none; cursor: not-allowed; font-size: 14px; text-transform: uppercase; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: all 0.2s ease; opacity: 0.6;">
+                                                        <i class="fas fa-ban" style="margin-right: 8px;"></i>
+                                                        LİMİT DOLDU
+                                                    </button>
+                                                @else
+                                                    <button type="button" id="generateWithAI" onclick="generateAI()"
+                                                        style="background: linear-gradient(135deg, #3B82F6 0%, #8B5CF6 100%); color: white; font-weight: bold; padding: 12px 32px; border-radius: 8px; border: none; cursor: pointer; font-size: 14px; text-transform: uppercase; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: all 0.2s ease;"
+                                                        onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 15px rgba(0,0,0,0.2)'"
+                                                        onmouseout="this.style.transform='translateY(0px)'; this.style.boxShadow='0 4px 6px rgba(0,0,0,0.1)'">
+                                                        <i class="fas fa-magic" style="margin-right: 8px;"></i>
+                                                        YAPAY ZEKA İLE OLUŞTUR
+                                                    </button>
+                                                @endif
+                                            </div>
                                             </div>
                                             <div class="text-center mt-2">
                                                 <small style="color: #64748B; font-size: 12px;">
-                                                    <i class="fas fa-arrow-down" style="margin-right: 4px;"></i>
-                                                    Bu işlem aşağıdaki tüm alanları otomatik olarak doldurur
+                                                    @if($aiUsageStatus['exceeded'])
+                                                        <i class="fas fa-calendar-times" style="margin-right: 4px;"></i>
+                                                        {{ $aiUsageStatus['month'] }} ayında {{ $aiUsageStatus['limit'] }} kullanım tamamlandı
+                                                    @else
+                                                        <i class="fas fa-arrow-down" style="margin-right: 4px;"></i>
+                                                        Bu işlem aşağıdaki tüm alanları otomatik olarak doldurur ({{ $aiUsageStatus['remaining'] }} hak kaldı)
+                                                    @endif
                                                 </small>
                                             </div>
                                         </div>
@@ -178,10 +217,10 @@ window.addEventListener('load', function() {
 
 console.log('Script loaded!');
 
-// Basit AI test fonksiyonu
-function generateAI() {
+// Global fonksiyon olarak tanımla
+window.generateAI = function() {
+    alert('generateAI function called!');
     console.log('generateAI function called!');
-    // alert('Button çalışıyor!'); // Alert'i kaldırdım, sadece console.log
 
     // Form verilerini al
     const domain = document.getElementById('ai_domain').value.trim();
@@ -221,10 +260,24 @@ function generateAI() {
                 // Summernote editöründe içerik güncellemesi
                 $('#summernote').summernote('code', response.data.content);
 
+                // Kullanım durumunu güncelle
+                if (response.usage_status) {
+                    updateUsageStatus(response.usage_status);
+                }
+
                 alert('İçerik oluşturuldu!');
             } else {
                 alert('Hata: ' + response.error);
+                // Limit aşıldıysa sayfayı yenile
+                if (response.limit_exceeded) {
+                    setTimeout(() => location.reload(), 2000);
+                }
             }
+        } else if (xhr.status === 429) {
+            // Too Many Requests - Limit aşıldı
+            const response = JSON.parse(xhr.responseText);
+            alert(response.error);
+            setTimeout(() => location.reload(), 2000);
         } else {
             alert('İstek hatası: ' + xhr.status);
         }
@@ -232,6 +285,39 @@ function generateAI() {
 
     const data = `domain=${encodeURIComponent(domain)}&location=${encodeURIComponent(location)}&company_name=${encodeURIComponent(companyName)}&_token=${encodeURIComponent(document.querySelector('meta[name="csrf-token"]').content)}`;
     xhr.send(data);
+}
+
+// Kullanım durumunu güncelleme fonksiyonu
+function updateUsageStatus(status) {
+    // Ana kullanım panelini güncelle
+    const usageDisplay = document.querySelector('.text-2xl.font-bold');
+    if (usageDisplay) {
+        usageDisplay.textContent = `${status.used} / ${status.limit}`;
+        usageDisplay.className = status.exceeded ? 'text-2xl font-bold text-red-600' : 'text-2xl font-bold text-green-600';
+    }
+
+    // Kalan hak bilgisini güncelle
+    const remainingDisplay = document.querySelector('.text-xs.text-slate-500');
+    if (remainingDisplay && remainingDisplay.textContent.includes('hak kaldı')) {
+        remainingDisplay.textContent = `${status.remaining} hak kaldı`;
+    }
+
+    // Eğer limit aşıldıysa butonu devre dışı bırak
+    if (status.exceeded) {
+        const button = document.getElementById('generateWithAI');
+        button.disabled = true;
+        button.style.background = 'linear-gradient(135deg, #9CA3AF 0%, #6B7280 100%)';
+        button.style.cursor = 'not-allowed';
+        button.style.opacity = '0.6';
+        button.innerHTML = '<i class="fas fa-ban" style="margin-right: 8px;"></i>LİMİT DOLDU';
+
+        // Alt metni güncelle
+        const smallText = button.parentElement.nextElementSibling.querySelector('small');
+        if (smallText) {
+            smallText.innerHTML = '<i class="fas fa-calendar-times" style="margin-right: 4px;"></i>' +
+                                 status.month + ' ayında ' + status.limit + ' kullanım tamamlandı';
+        }
+    }
 }
 </script>
 
