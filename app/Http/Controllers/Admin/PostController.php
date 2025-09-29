@@ -155,12 +155,6 @@ class PostController extends Controller
     public function generateWithAiAjax(Request $request)
     {
         try {
-            Log::info('AJAX Request received', [
-                'method' => $request->method(),
-                'url' => $request->url(),
-                'data' => $request->all()
-            ]);
-
             // Sistem geneli limit kontrolü yap
             if (AiBlogLimit::hasExceededLimit()) {
                 $status = AiBlogLimit::getUsageStatus();
@@ -178,15 +172,11 @@ class PostController extends Controller
                 'company_name' => 'required|string|max:100',
             ]);
 
-            Log::info('Validation passed, calling AI service');
-
             $result = $this->aiBlogService->generateBlogContent(
                 $request->domain,
                 $request->location,
                 $request->company_name
             );
-
-            Log::info('AI Service result', ['result' => $result]);
 
             if ($result['success']) {
                 // Başarılı AI kullanımında sayacı artır
@@ -211,15 +201,12 @@ class PostController extends Controller
             ], 422);
 
         } catch (\Illuminate\Validation\ValidationException $e) {
-            Log::error('Validation error', ['errors' => $e->validator->errors()->all()]);
             return response()->json([
                 'success' => false,
                 'error' => 'Validation hatası: ' . implode(', ', $e->validator->errors()->all())
             ], 422);
         } catch (\Exception $e) {
-            Log::error('AI Blog AJAX Error: ' . $e->getMessage(), [
-                'exception' => $e->getTraceAsString()
-            ]);
+            Log::error('AI Blog AJAX Error: ' . $e->getMessage());
             return response()->json([
                 'success' => false,
                 'error' => 'Sistem hatası: ' . $e->getMessage()
