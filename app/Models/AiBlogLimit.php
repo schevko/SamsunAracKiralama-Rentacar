@@ -10,15 +10,87 @@ class AiBlogLimit extends Model
 {
     protected $fillable = [
         'user_id',
-        'month_year',
-        'usage_count',
-        'monthly_limit'
+        'month',
+        'usage_count'
     ];
+
+    const MONTHLY_LIMIT = 20;
 
     // User ilişkisi
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Sistem geneli kullanım durumunu al
+     */
+    public static function getSystemWideUsageStatus()
+    {
+        $currentMonth = Carbon::now()->format('Y-m');
+
+        $record = self::where('month', $currentMonth)
+                     ->whereNull('user_id') // Sistem geneli kayıt
+                     ->first();
+
+        $used = $record ? $record->usage_count : 0;
+        $limit = self::MONTHLY_LIMIT;
+        $remaining = max(0, $limit - $used);
+
+        return [
+            'used' => $used,
+            'limit' => $limit,
+            'remaining' => $remaining,
+            'exceeded' => $used >= $limit,
+            'month' => $currentMonth
+        ];
+    }
+
+    /**
+     * Sistem geneli limit aşıldı mı?
+     */
+    public static function hasSystemWideExceededLimit()
+    {
+        $status = self::getSystemWideUsageStatus();
+        return $status['exceeded'];
+    }
+
+    /**
+     * Sistem geneli kullanımı artır
+     */
+    public static function incrementSystemWideUsage()
+    {
+        $currentMonth = Carbon::now()->format('Y-m');
+
+        $record = self::firstOrCreate(
+            [
+                'user_id' => null, // Sistem geneli
+                'month' => $currentMonth
+            ],
+            [
+                'usage_count' => 0
+            ]
+        );
+
+        $record->increment('usage_count');
+
+        return $record;
+    }
+
+    // Eski metodlar (backward compatibility için)
+    public static function getUsageStatus()
+    {
+        return self::getSystemWideUsageStatus();
+    }
+
+    public static function hasExceededLimit()
+    {
+        return self::hasSystemWideExceededLimit();
+    }
+
+    public static function incrementUsage()
+    {
+        return self::incrementSystemWideUsage();
     }
 
     /**
@@ -30,8 +102,8 @@ class AiBlogLimit extends Model
         $currentMonth = Carbon::now()->format('Y-m');
 
         return self::firstOrCreate(
-            ['user_id' => $userId, 'month_year' => $currentMonth],
-            ['usage_count' => 0, 'monthly_limit' => 20]
+            ['user_id' => $userId, 'month' => $currentMonth],
+            ['usage_count' => 0]
         );
     }
 
@@ -40,40 +112,7 @@ class AiBlogLimit extends Model
      */
     public static function getRemainingUsage($userId = null)
     {
-        $limit = self::getCurrentMonthLimit($userId);
-        return max(0, $limit->monthly_limit - $limit->usage_count);
-    }
-
-    /**
-     * Kullanıcının limitinin dolup dolmadığını kontrol et
-     */
-    public static function hasExceededLimit($userId = null)
-    {
-        return self::getRemainingUsage($userId) <= 0;
-    }
-
-    /**
-     * Kullanım sayısını artır
-     */
-    public static function incrementUsage($userId = null)
-    {
-        $limit = self::getCurrentMonthLimit($userId);
-        $limit->increment('usage_count');
-        return $limit;
-    }
-
-    /**
-     * Kullanıcının mevcut durumunu getir
-     */
-    public static function getUsageStatus($userId = null)
-    {
-        $limit = self::getCurrentMonthLimit($userId);
-        return [
-            'used' => $limit->usage_count,
-            'limit' => $limit->monthly_limit,
-            'remaining' => max(0, $limit->monthly_limit - $limit->usage_count),
-            'exceeded' => $limit->usage_count >= $limit->monthly_limit,
-            'month' => $limit->month_year
-        ];
+        $status = self::getSystemWideUsageStatus();
+        return $status['remaining'];
     }
 }

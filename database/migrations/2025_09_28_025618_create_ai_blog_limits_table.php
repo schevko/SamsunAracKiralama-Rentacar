@@ -13,16 +13,15 @@ return new class extends Migration
     {
         Schema::create('ai_blog_limits', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->string('month_year', 7); // Format: 2025-09
+            $table->unsignedBigInteger('user_id')->nullable(); // Nullable yapıldı
+            $table->string('month', 7); // Format: 2025-09
             $table->integer('usage_count')->default(0);
-            $table->integer('monthly_limit')->default(20);
             $table->timestamps();
 
             // İndeksler
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->unique(['user_id', 'month_year']); // Aynı kullanıcı aynı ay için tek kayıt
-            $table->index('month_year');
+            $table->unique(['user_id', 'month']); // user_id null da olabilir
+            $table->index('month');
         });
     }
 

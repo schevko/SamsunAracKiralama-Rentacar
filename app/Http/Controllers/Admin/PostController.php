@@ -21,6 +21,25 @@ class PostController extends Controller
         $this->aiBlogService = $aiblogservice;
     }
 
+    private function generateUniqueSlug($baseSlug , $excludeId = null)
+    {
+       $slug = Str::slug($baseSlug);
+       $originalSlug = $slug;
+       $counter = 1;
+       while(true){
+        $query = Post::where('slug' , $slug);
+        if($excludeId){
+            $query->where('id' , '!=' , $excludeId);
+        }
+
+        if(!$query->exists()){
+            break;
+        }
+        $slug = $originalSlug . '-' . $counter;
+        $counter++;
+       }
+       return $slug;
+    }
 
     public function index()
     {
@@ -50,9 +69,9 @@ class PostController extends Controller
     {
         $data = $request->validated();
         if (empty($data['slug'])) {
-            $data['slug'] = Str::slug($data['title']);
+            $data['slug'] = $this->generateUniqueSlug($data['title']);
         } else {
-            $data['slug'] = Str::slug($data['slug']);
+            $data['slug'] = $this->generateUniqueSlug($data['slug']);
         }
         $data['content'] = $request->input('content');
         $data['user_id'] = Auth::id();
@@ -76,9 +95,9 @@ class PostController extends Controller
         $data = $request->validated();
         $data['content'] = $request->input('content');
         if (empty($data['slug'])) {
-            $data['slug'] = Str::slug($data['title']);
+            $data['slug'] = $this->generateUniqueSlug($data['title'] , $post->id);
         } else {
-            $data['slug'] = Str::slug($data['slug']);
+            $data['slug'] = $this->generateUniqueSlug($data['slug'], $post->id);
         }
         $data['user_id'] = Auth::id();
 
@@ -121,7 +140,7 @@ class PostController extends Controller
                 'title' => $result['title'],
                 'content' => $result['content'],
                 'summary' => $result['summary'],
-                'slug' => $result['slug'] ?? Str::slug($request['title']),
+                'slug' => $result['slug'] ?? $this->generateUniqueSlug($result['title']),
                 'is_published' => true,
                 'user_id' => Auth::id(),
             ]);
@@ -142,12 +161,12 @@ class PostController extends Controller
                 'data' => $request->all()
             ]);
 
-            // Önce limit kontrolü yap
+            // Sistem geneli limit kontrolü yap
             if (AiBlogLimit::hasExceededLimit()) {
                 $status = AiBlogLimit::getUsageStatus();
                 return response()->json([
                     'success' => false,
-                    'error' => "Aylık yapay zeka kullanım limitiniz doldu! Bu ay {$status['used']}/{$status['limit']} hakkınızı kullandınız. Yeni ay için bekleyin.",
+                    'error' => "Sistem geneli yapay zeka kullanım limiti doldu! Bu ay toplam {$status['used']}/{$status['limit']} hak kullanıldı. Yeni ay için bekleyin.",
                     'limit_exceeded' => true,
                     'usage_status' => $status
                 ], 429); // Too Many Requests
@@ -180,7 +199,7 @@ class PostController extends Controller
                         'title' => $result['title'],
                         'content' => $result['content'],
                         'summary' => $result['summary'] ?? Str::limit(strip_tags($result['content']), 200),
-                        'slug' => $result['slug'] ?? Str::slug($result['title']),
+                        'slug' => $result['slug'] ?? $this->generateUniqueSlug($result['title']),
                     ],
                     'usage_status' => $updatedStatus
                 ]);
