@@ -3,94 +3,82 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Spatie\Sitemap\Sitemap;
-use Spatie\Sitemap\Tags\Url;
 use App\Models\Car;
 use App\Models\Post;
 use App\Models\Page;
-
+use Carbon\Carbon;
 
 class SitemapController extends Controller
 {
     public function index()
     {
-        // Base URL'i al (production domain)
-        $baseUrl = config('app.url', 'https://samsunarackiralama.com');
+        $baseUrl = 'https://samsunarackiralama.com';
 
-        $sitemap = Sitemap::create();
+        // XML başlat
+        $xml = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
+        $xml .= '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n";
 
         // Anasayfa
-        $sitemap->add(Url::create($baseUrl . '/')
-            ->setLastModificationDate(now())
-            ->setChangeFrequency('daily')
-            ->setPriority(1.0)
-        );
+        $xml .= $this->createUrl($baseUrl . '/', now(), 'daily', '1.0');
 
-        // Statik Sayfalar
-        $sitemap->add(Url::create($baseUrl . '/araclar')
-            ->setLastModificationDate(now())
-            ->setChangeFrequency('daily')
-            ->setPriority(0.9)
-        );
+        // Statik sayfalar
+        $xml .= $this->createUrl($baseUrl . '/araclar', now(), 'daily', '0.9');
+        $xml .= $this->createUrl($baseUrl . '/hakkimizda', now(), 'monthly', '0.8');
+        $xml .= $this->createUrl($baseUrl . '/blog', now(), 'weekly', '0.8');
+        $xml .= $this->createUrl($baseUrl . '/iletisim', now(), 'monthly', '0.8');
+        $xml .= $this->createUrl($baseUrl . '/cerez-politikasi', now(), 'monthly', '0.7');
 
-        $sitemap->add(Url::create($baseUrl . '/hakkimizda')
-            ->setLastModificationDate(now())
-            ->setChangeFrequency('monthly')
-            ->setPriority(0.8)
-        );
-
-        $sitemap->add(Url::create($baseUrl . '/iletisim')
-            ->setLastModificationDate(now())
-            ->setChangeFrequency('monthly')
-            ->setPriority(0.8)
-        );
-
-        $sitemap->add(Url::create($baseUrl . '/blog')
-            ->setLastModificationDate(now())
-            ->setChangeFrequency('weekly')
-            ->setPriority(0.8)
-        );
-
-        $sitemap->add(Url::create($baseUrl . '/cerez-politikasi')
-            ->setLastModificationDate(now())
-            ->setChangeFrequency('monthly')
-            ->setPriority(0.7)
-        );
-
-        // Aktif Araçlar - route: /araclar/{car}
-        Car::where('is_active', 1)->get()->each(function(Car $car) use ($sitemap, $baseUrl) {
-            $sitemap->add(Url::create($baseUrl . "/araclar/{$car->slug}")
-                ->setLastModificationDate($car->updated_at)
-                ->setChangeFrequency('weekly')
-                ->setPriority(0.8)
+        // Araçlar
+        $cars = Car::where('is_active', 1)->get();
+        foreach ($cars as $car) {
+            $xml .= $this->createUrl(
+                $baseUrl . '/araclar/' . $car->slug,
+                $car->updated_at,
+                'weekly',
+                '0.8'
             );
-        });
+        }
 
-        // Yayınlanan Blog Yazıları - route: /blog/{blog}
-        Post::where('is_published', 1)->get()->each(function(Post $post) use ($sitemap, $baseUrl) {
-            $sitemap->add(Url::create($baseUrl . "/blog/{$post->slug}")
-                ->setLastModificationDate($post->updated_at)
-                ->setChangeFrequency('weekly')
-                ->setPriority(0.7)
+        // Blog yazıları
+        $posts = Post::where('is_published', 1)->get();
+        foreach ($posts as $post) {
+            $xml .= $this->createUrl(
+                $baseUrl . '/blog/' . $post->slug,
+                $post->updated_at,
+                'weekly',
+                '0.7'
             );
-        });
+        }
 
-        // Dinamik Sayfalar - route: /sayfa/{slug} (varsa)
-        Page::where('is_active', 1)->get()->each(function(Page $page) use ($sitemap, $baseUrl) {
-            $sitemap->add(Url::create($baseUrl . "/sayfa/{$page->slug}")
-                ->setLastModificationDate($page->updated_at)
-                ->setChangeFrequency('monthly')
-                ->setPriority(0.6)
+        // Dinamik sayfalar
+        $pages = Page::where('is_active', 1)->get();
+        foreach ($pages as $page) {
+            $xml .= $this->createUrl(
+                $baseUrl . '/sayfa/' . $page->slug,
+                $page->updated_at,
+                'monthly',
+                '0.6'
             );
-        });
+        }
 
-        // Sitemap XML dosyasını public klasöre yaz
-        $sitemap->writeToFile(public_path('sitemap.xml'));
+        $xml .= '</urlset>';
 
-        // XML dosyasını oku ve response olarak döndür
-        $xml = file_get_contents(public_path('sitemap.xml'));
         return response($xml, 200)
             ->header('Content-Type', 'application/xml; charset=UTF-8')
             ->header('Cache-Control', 'public, max-age=3600');
+    }
+
+    private function createUrl($loc, $lastmod, $changefreq, $priority)
+    {
+        $lastmodDate = $lastmod instanceof Carbon
+            ? $lastmod->toW3cString()
+            : Carbon::parse($lastmod)->toW3cString();
+
+        return "  <url>\n" .
+               "    <loc>" . htmlspecialchars($loc) . "</loc>\n" .
+               "    <lastmod>" . $lastmodDate . "</lastmod>\n" .
+               "    <changefreq>" . $changefreq . "</changefreq>\n" .
+               "    <priority>" . $priority . "</priority>\n" .
+               "  </url>\n";
     }
 }
