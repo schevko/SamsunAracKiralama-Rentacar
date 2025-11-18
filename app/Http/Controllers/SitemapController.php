@@ -84,9 +84,10 @@ class SitemapController extends Controller
         // Sitemap XML dosyasını public klasöre yaz
         $sitemap->writeToFile(public_path('sitemap.xml'));
 
-        // Başarı mesajı döndür
-        return response()->view('sitemap::sitemapIndex.index', [
-            'message' => 'Sitemap başarıyla oluşturuldu: ' . now()
-        ]);
+        // XML dosyasını oku ve response olarak döndür
+        $xml = file_get_contents(public_path('sitemap.xml'));
+        return response($xml, 200)
+            ->header('Content-Type', 'application/xml; charset=UTF-8')
+            ->header('Cache-Control', 'public, max-age=3600');
     }
 }
