@@ -14,49 +14,52 @@ class SitemapController extends Controller
 {
     public function index()
     {
+        // Base URL'i al (production domain)
+        $baseUrl = config('app.url', 'https://samsunarackiralama.com');
+
         $sitemap = Sitemap::create();
 
         // Anasayfa
-        $sitemap->add(Url::create('/')
+        $sitemap->add(Url::create($baseUrl . '/')
             ->setLastModificationDate(now())
             ->setChangeFrequency('daily')
             ->setPriority(1.0)
         );
 
         // Statik Sayfalar
-        $sitemap->add(Url::create('/araclar')
+        $sitemap->add(Url::create($baseUrl . '/araclar')
             ->setLastModificationDate(now())
             ->setChangeFrequency('daily')
             ->setPriority(0.9)
         );
 
-        $sitemap->add(Url::create('/hakkimizda')
+        $sitemap->add(Url::create($baseUrl . '/hakkimizda')
             ->setLastModificationDate(now())
             ->setChangeFrequency('monthly')
             ->setPriority(0.8)
         );
 
-        $sitemap->add(Url::create('/iletisim')
+        $sitemap->add(Url::create($baseUrl . '/iletisim')
             ->setLastModificationDate(now())
             ->setChangeFrequency('monthly')
             ->setPriority(0.8)
         );
 
-        $sitemap->add(Url::create('/blog')
+        $sitemap->add(Url::create($baseUrl . '/blog')
             ->setLastModificationDate(now())
             ->setChangeFrequency('weekly')
             ->setPriority(0.8)
         );
 
-        $sitemap->add(Url::create('/cerez-politikasi')
+        $sitemap->add(Url::create($baseUrl . '/cerez-politikasi')
             ->setLastModificationDate(now())
             ->setChangeFrequency('monthly')
             ->setPriority(0.7)
         );
 
         // Aktif Araçlar - route: /araclar/{car}
-        Car::where('is_active', 1)->get()->each(function(Car $car) use ($sitemap) {
-            $sitemap->add(Url::create("/araclar/{$car->slug}")
+        Car::where('is_active', 1)->get()->each(function(Car $car) use ($sitemap, $baseUrl) {
+            $sitemap->add(Url::create($baseUrl . "/araclar/{$car->slug}")
                 ->setLastModificationDate($car->updated_at)
                 ->setChangeFrequency('weekly')
                 ->setPriority(0.8)
@@ -64,8 +67,8 @@ class SitemapController extends Controller
         });
 
         // Yayınlanan Blog Yazıları - route: /blog/{blog}
-        Post::where('is_published', 1)->get()->each(function(Post $post) use ($sitemap) {
-            $sitemap->add(Url::create("/blog/{$post->slug}")
+        Post::where('is_published', 1)->get()->each(function(Post $post) use ($sitemap, $baseUrl) {
+            $sitemap->add(Url::create($baseUrl . "/blog/{$post->slug}")
                 ->setLastModificationDate($post->updated_at)
                 ->setChangeFrequency('weekly')
                 ->setPriority(0.7)
@@ -73,8 +76,8 @@ class SitemapController extends Controller
         });
 
         // Dinamik Sayfalar - route: /sayfa/{slug} (varsa)
-        Page::where('is_active', 1)->get()->each(function(Page $page) use ($sitemap) {
-            $sitemap->add(Url::create("/sayfa/{$page->slug}")
+        Page::where('is_active', 1)->get()->each(function(Page $page) use ($sitemap, $baseUrl) {
+            $sitemap->add(Url::create($baseUrl . "/sayfa/{$page->slug}")
                 ->setLastModificationDate($page->updated_at)
                 ->setChangeFrequency('monthly')
                 ->setPriority(0.6)
