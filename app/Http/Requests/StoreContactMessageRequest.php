@@ -23,21 +23,21 @@ class StoreContactMessageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
-            'email' => 'required|email',
-            'subject' => 'required|string|max:255',
-            'message' => 'required|string'
+            'name'      => 'required|string|max:255',
+            'email'     => 'required|email',
+            'subject'   => 'required|string|max:255',
+            'message'   => 'required|string'
         ];
     }
 
     public function messages(): array
     {
         return [
-            'name.required' => 'isim Boş Bırakılamaz',
-            'name.string'   => 'İsim Sayısal Değer İçeremez',
-            'name.max'      => 'isim En Fazla 255 Karakter Olabilir',
-            'email.required'=> 'E-posta Boş Bırakılamaz',
-            'email.email'   => 'Geçerli Bir E-posta Adresi Girin',
+            'name.required'    => 'isim Boş Bırakılamaz',
+            'name.string'      => 'İsim Sayısal Değer İçeremez',
+            'name.max'         => 'isim En Fazla 255 Karakter Olabilir',
+            'email.required'   => 'E-posta Boş Bırakılamaz',
+            'email.email'      => 'Geçerli Bir E-posta Adresi Girin',
             'subject.required' => 'Konu Boş Bırakılamaz',
             'message.required' => 'Mesaj Boş Bırakılamaz',
         ];

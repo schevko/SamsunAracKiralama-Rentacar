@@ -23,27 +23,27 @@ class UpdatePostRequest extends FormRequest
     {
         $postid = $this->route('post')->id;
         return [
-            'title' => 'required|string|max:255',
-            'slug' => 'nullable|string|max:255|unique:posts,slug,' . $postid,
-            'summary' => 'nullable|string',
-            'image' => 'nullable|image|max:20480',
-            'is_published' => 'boolean',
-            'published_at' => 'nullable|date'
+            'title'         => 'required|string|max:255',
+            'slug'          => 'nullable|string|max:255|unique:posts,slug,' . $postid,
+            'summary'       => 'nullable|string',
+            'image'         => 'nullable|image|max:20480',
+            'is_published'  => 'boolean',
+            'published_at'  => 'nullable|date'
         ];
     }
 
     public function messages() : array
     {
         return [
-            'title.required' => 'Başlık Alanı Zorunludur',
-            'title.string' => 'Başlık Alanı Metin Olmalıdır',
-            'title.max' => 'Başlık En Fazla 255 Karakter Olabilir',
+            'title.required'   => 'Başlık Alanı Zorunludur',
+            'title.string'     => 'Başlık Alanı Metin Olmalıdır',
+            'title.max'        => 'Başlık En Fazla 255 Karakter Olabilir',
             'content.required' => 'İçerik Alanı Zorunludur',
-            'content.string' => 'İçerik Alanı Metin Olmalıdır',
-            'summary.string' => 'Özet Alanı Metin Olmalıdır',
-            'image.image' => 'Resim Dosyası Olmalıdır',
-            'image.max' => 'Resim En Fazla 20 MB Olabilir',
-            'published_at.date' => 'Yayınlanma Tarihi Geçerli Bir Tarih Olmalıdır'
+            'content.string'   => 'İçerik Alanı Metin Olmalıdır',
+            'summary.string'   => 'Özet Alanı Metin Olmalıdır',
+            'image.image'      => 'Resim Dosyası Olmalıdır',
+            'image.max'        => 'Resim En Fazla 20 MB Olabilir',
+            'published_at.date'=> 'Yayınlanma Tarihi Geçerli Bir Tarih Olmalıdır'
         ];
     }
 }

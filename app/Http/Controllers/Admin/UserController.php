@@ -24,8 +24,8 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|unique:users,email',
+            'name'     => 'required|string|max:255',
+            'email'    => 'required|string|email|unique:users,email',
             'password' => 'required|min:8',
             'is_admin' => 'nullable|boolean',
         ]);
@@ -42,7 +42,7 @@ class UserController extends Controller
     public function update(Request $request , User $user)
     {
         $data = $request->validate([
-            'name' => 'nullable|string|max:255',
+            'name'    => 'nullable|string|max:255',
               'email' => [
               'required',
               'string',
@@ -53,8 +53,8 @@ class UserController extends Controller
             'password' => 'nullable|min:8',
             'is_admin' => 'nullable|boolean',
         ]);
-        $user->name = $request->name;
-        $user->email = $request->email;
+        $user->name     = $request->name;
+        $user->email    = $request->email;
         $user->is_admin = $request->is_admin;
         if ($request->filled('password')) {
             $user->password = Hash::make($request->password);

@@ -12,8 +12,8 @@ class FrontBlogController extends Controller
     {
         $posts = Post::where('is_published' , true)->orderBy('published_at' , 'desc')->paginate(10);
         return view('front.blog.index' , [
-            'posts' => $posts,
-            'meta_title' => 'Blog' . ' | ' . setting('site_title'),
+            'posts'            => $posts,
+            'meta_title'       => 'Blog' . ' | ' . setting('site_title'),
             'meta_description' => 'En son haberler, ipuçları ve araç kiralama ile ilgili makaleler için blogumuzu ziyaret edin.',
         ]);
     }
@@ -22,8 +22,8 @@ class FrontBlogController extends Controller
     {
         $post = Post::where('slug' , $slug)->where('is_published',  true)->firstOrFail();
         return view('front.blog.show', [
-            'post' => $post,
-            'meta_title' => $post->title . ' |' . setting('site_title'),
+            'post'             => $post,
+            'meta_title'       => $post->title . ' |' . setting('site_title'),
             'meta_description' => $post->summary,
         ]);
     }

@@ -219,7 +219,7 @@ console.log('Script loaded!');
 
 // Global fonksiyon olarak tanımla
 window.generateAI = function() {
-    alert('generateAI function called!');
+    alert('Yapay zeka ile içerik oluşturma işlemi başlatılıyor...');
     console.log('generateAI function called!');
 
     // Form verilerini al

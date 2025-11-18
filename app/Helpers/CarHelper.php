@@ -2,7 +2,7 @@
 
 function translateTransmissionType($type){
     $translations = [
-        'manual' => 'Manuel',
+        'manual'    => 'Manuel',
         'automatic' => 'Otomatik'
     ];
     return $translations[$type] ?? $type;
@@ -10,10 +10,10 @@ function translateTransmissionType($type){
 
 function translateFuelType($type){
     $translations = [
-        'petrol' => 'Benzin',
-        'diesel' => 'Dizel',
-        'electric' => 'Elektrikli',
-        'hybrid' => 'Hibrit'
+        'petrol'    => 'Benzin',
+        'diesel'    => 'Dizel',
+        'electric'  => 'Elektrikli',
+        'hybrid'    => 'Hibrit'
     ];
     return $translations[$type] ?? $type;
 }

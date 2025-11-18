@@ -13,8 +13,8 @@ class FrontPageController extends Controller
     {
         $page = Page::where('slug' , 'hakkimizda')->where('is_active' , true)->firstOrFail();
         return view('front.page.about' , [
-            'page' => $page,
-            'meta_title' => $page->title . ' | ' . setting('site_title'),
+            'page'             => $page,
+            'meta_title'       => $page->title . ' | ' . setting('site_title'),
             'meta_description' => Str::limit($page->content , 150),
         ]);
     }
@@ -23,8 +23,8 @@ class FrontPageController extends Controller
     {
         $page = Page::where('slug' , 'cerez-politikasi')->where('is_active' , true)->firstOrFail();
         return view('front.page.cookiepolicy' ,[
-            'page' => $page,
-            'meta_title' => $page->title . ' | ' . setting('site_title'),
+            'page'             => $page,
+            'meta_title'       => $page->title . ' | ' . setting('site_title'),
             'meta_description' => Str::limit($page->content , 150),
         ]);
     }

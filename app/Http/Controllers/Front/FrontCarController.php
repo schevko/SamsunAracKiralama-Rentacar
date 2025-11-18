@@ -23,8 +23,8 @@ class FrontCarController extends Controller
         }
         $cars = $query->latest()->paginate(20);
         return view('front.car.index', [
-            'cars' => $cars,
-            'meta_title' => 'Araçlar' . ' | ' . setting('site_title'),
+            'cars'             => $cars,
+            'meta_title'       => 'Araçlar' . ' | ' . setting('site_title'),
             'meta_description' => 'Geniş araç filomuzla sizlere en iyi deneyimi sunuyoruz. Araçlarımızı inceleyin ve rezervasyon yapın.',
         ]);
     }
@@ -40,9 +40,9 @@ class FrontCarController extends Controller
                           ->get();
 
         return view('front.car.show', [
-            'car' => $car,
-            'similarCars' => $similarCars,
-            'meta_title' => $car->brand . ' ' . $car->model . ' | ' . setting('site_title'),
+            'car'              => $car,
+            'similarCars'      => $similarCars,
+            'meta_title'       => $car->brand . ' ' . $car->model . ' | ' . setting('site_title'),
             'meta_description' => Str::limit($car->description,150),
         ]);
     }

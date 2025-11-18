@@ -12,7 +12,7 @@ class DashboardController extends Controller
     public function index()
     {
         $userCount = User::count();
-        $carCount = Car::count();
+        $carCount  = Car::count();
         return view('admin.dashboard' , compact('userCount' , 'carCount'));
     }
 }

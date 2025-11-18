@@ -52,13 +52,12 @@ class PostController extends Controller
         try {
             $aiUsageStatus = AiBlogLimit::getUsageStatus();
         } catch (\Exception $e) {
-            // Hata durumunda default değerler
             $aiUsageStatus = [
-                'used' => 0,
-                'limit' => 20,
+                'used'      => 0,
+                'limit'     => 20,
                 'remaining' => 20,
-                'exceeded' => false,
-                'month' => date('Y-m')
+                'exceeded'  => false,
+                'month'     => date('Y-m')
             ];
             Log::warning('AiBlogLimit error, using defaults: ' . $e->getMessage());
         }
@@ -99,7 +98,7 @@ class PostController extends Controller
         } else {
             $data['slug'] = $this->generateUniqueSlug($data['slug'], $post->id);
         }
-        $data['user_id'] = Auth::id();
+        $data['user_id']  = Auth::id();
 
         if ($request->hasFile('image')) {
             if ($post->image_path) {
@@ -124,9 +123,9 @@ class PostController extends Controller
     public function generateWithAi(Request $request)
     {
         $request->validate([
-            'domain' => 'required|url',
-            'location' => 'required|string',
-            'company_name' => 'required|string',
+            'domain'        => 'required|url',
+            'location'      => 'required|string',
+            'company_name'  => 'required|string',
         ]);
 
         $result = $this->aiBlogService->generateBlogContent(
@@ -137,12 +136,12 @@ class PostController extends Controller
 
         if($result['success']){
             $post = Post::create([
-                'title' => $result['title'],
-                'content' => $result['content'],
-                'summary' => $result['summary'],
-                'slug' => $result['slug'] ?? $this->generateUniqueSlug($result['title']),
+                'title'        => $result['title'],
+                'content'      => $result['content'],
+                'summary'      => $result['summary'],
+                'slug'         => $result['slug'] ?? $this->generateUniqueSlug($result['title']),
                 'is_published' => true,
-                'user_id' => Auth::id(),
+                'user_id'      => Auth::id(),
             ]);
             return redirect()->route('admin.post.index')->with('success', 'Blog başarıyla oluşturuldu.');
         }
@@ -159,17 +158,17 @@ class PostController extends Controller
             if (AiBlogLimit::hasExceededLimit()) {
                 $status = AiBlogLimit::getUsageStatus();
                 return response()->json([
-                    'success' => false,
-                    'error' => "Sistem geneli yapay zeka kullanım limiti doldu! Bu ay toplam {$status['used']}/{$status['limit']} hak kullanıldı. Yeni ay için bekleyin.",
+                    'success'        => false,
+                    'error'          => "Sistem geneli yapay zeka kullanım limiti doldu! Bu ay toplam {$status['used']}/{$status['limit']} hak kullanıldı. Yeni ay için bekleyin.",
                     'limit_exceeded' => true,
-                    'usage_status' => $status
+                    'usage_status'   => $status
                 ], 429); // Too Many Requests
             }
 
             $request->validate([
-                'domain' => 'required|url',
-                'location' => 'required|string|max:100',
-                'company_name' => 'required|string|max:100',
+                'domain'      => 'required|url',
+                'location'    => 'required|string|max:100',
+                'company_name'=> 'required|string|max:100',
             ]);
 
             $result = $this->aiBlogService->generateBlogContent(
@@ -186,30 +185,30 @@ class PostController extends Controller
                 return response()->json([
                     'success' => true,
                     'data' => [
-                        'title' => $result['title'],
-                        'content' => $result['content'],
-                        'summary' => $result['summary'] ?? Str::limit(strip_tags($result['content']), 200),
-                        'slug' => $result['slug'] ?? $this->generateUniqueSlug($result['title']),
+                        'title'        => $result['title'],
+                        'content'      => $result['content'],
+                        'summary'      => $result['summary'] ?? Str::limit(strip_tags($result['content']), 200),
+                        'slug'         => $result['slug'] ?? $this->generateUniqueSlug($result['title']),
                     ],
-                    'usage_status' => $updatedStatus
+                    'usage_status'     => $updatedStatus
                 ]);
             }
 
             return response()->json([
                 'success' => false,
-                'error' => $result['error'] ?? 'Bilinmeyen bir hata oluştu.'
+                'error'   => $result['error'] ?? 'Bilinmeyen bir hata oluştu.'
             ], 422);
 
         } catch (\Illuminate\Validation\ValidationException $e) {
             return response()->json([
                 'success' => false,
-                'error' => 'Validation hatası: ' . implode(', ', $e->validator->errors()->all())
+                'error'   => 'Validation hatası: ' . implode(', ', $e->validator->errors()->all())
             ], 422);
         } catch (\Exception $e) {
             Log::error('AI Blog AJAX Error: ' . $e->getMessage());
             return response()->json([
                 'success' => false,
-                'error' => 'Sistem hatası: ' . $e->getMessage()
+                'error'   => 'Sistem hatası: ' . $e->getMessage()
             ], 500);
         }
     }

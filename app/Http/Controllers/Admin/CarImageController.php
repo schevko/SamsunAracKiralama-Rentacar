@@ -16,7 +16,7 @@ class CarImageController extends Controller
     public function store(Request $request, Car $car)
 {
     $request->validate([
-        'images' => 'required|array',
+        'images'   => 'required|array',
         'images.*' => 'required|image|max:2048',
     ]);
 
@@ -24,8 +24,8 @@ class CarImageController extends Controller
         try {
             $path = $file->store('car_images', 'public');
             $car->images()->create([
-                'path' => $path,
-                'order' => $car->images()->max('order') + 1 + $index,
+                'path'  => $path,
+                'order'    => $car->images()->max('order') + 1 + $index,
                 'is_thumbnail' => $car->images()->count() === 0 && $index === 0,
             ]);
         } catch (\Exception $e) {

@@ -22,18 +22,18 @@ class StorePageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required|string|max:255',
-            'slug' => 'required|string|max:255|unique:pages,slug',
-            'content' => 'required|string',
+            'title'     => 'required|string|max:255',
+            'slug'      => 'required|string|max:255|unique:pages,slug',
+            'content'   => 'required|string',
             'is_active' => 'boolean'
         ];
     }
     public function messages() : array
     {
         return [
-            'title.required' => 'Başlık Alanı Boş Bırakılamaz',
-            'slug.required'  => 'Slug Alanı Boş Bırakılamaz',
-            'slug.unique'    => 'Bu Slug Zaten Kullanılıyor',
+            'title.required'   => 'Başlık Alanı Boş Bırakılamaz',
+            'slug.required'    => 'Slug Alanı Boş Bırakılamaz',
+            'slug.unique'      => 'Bu Slug Zaten Kullanılıyor',
             'content.required' => 'içerik Alanı Boş Bırakılamaz',
         ];
     }

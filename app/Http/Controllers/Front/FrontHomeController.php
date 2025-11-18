@@ -17,10 +17,10 @@ class FrontHomeController extends Controller
         $featuredcars = Car::where('is_active' , true)->get();
 
         return view('front.home', [
-            'featuredcars' => $featuredcars,
-            'about' => $about,
-            'posts' => $posts,
-            'meta_title' => setting('site_title'),
+            'featuredcars'     => $featuredcars,
+            'about'            => $about,
+            'posts'            => $posts,
+            'meta_title'       => setting('site_title'),
             'meta_description' => setting('site_description')
         ]);
     }

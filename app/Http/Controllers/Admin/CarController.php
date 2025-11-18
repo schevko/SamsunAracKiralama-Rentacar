@@ -30,8 +30,8 @@ class CarController extends Controller
             foreach ($request->file('images') as $index => $file) {
                 $path = $file->store('car_images', 'public');
                 $car->images()->create([
-                    'path' => $path,
-                    'order' => $index,
+                    'path'         => $path,
+                    'order'        => $index,
                     'is_thumbnail' => $index === 0,
                 ]);
             }
